@@ -48,7 +48,7 @@
        </property>
        <property name="styleSheet">
         <string notr="true">QWidget {
-	background-color: #5C3B8F;
+	background-color: #2F0746;
 color: white;	
 }
 QPushButton{
@@ -57,11 +57,11 @@ QPushButton{
 	
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 10px; 
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 10px; 
 }
 </string>
@@ -339,7 +339,8 @@ QPushButton:hover{
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-	background-color:#758F3B;
+	
+	background-image: url(:/images/asset/last_background.jpg);
 
 }</string>
          </property>
@@ -362,7 +363,7 @@ QPushButton:hover{
            <item>
             <widget class="QPushButton" name="pushButton">
              <property name="styleSheet">
-              <string notr="true">
+              <string notr="true">	background: transparent;
 	border:none;
 	
 
@@ -403,7 +404,8 @@ QPushButton:hover{
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: white;</string>
+                <string notr="true">color: white;
+background: transparent;</string>
                </property>
                <property name="text">
                 <string>Chào mừng đã quay lại!</string>
@@ -419,7 +421,8 @@ QPushButton:hover{
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: white;</string>
+                <string notr="true">color: white;
+background: transparent;</string>
                </property>
                <property name="text">
                 <string>Hãy biến dữ liệu của bạn trở thành thông tin bổ ích.</string>
@@ -460,7 +463,7 @@ QPushButton:hover{
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: #F7FFE3 ;
+          <string notr="true">background-color: #white;
 border:none;</string>
          </property>
          <widget class="QStackedWidget" name="stackedWidget">
@@ -477,6 +480,9 @@ border:none;</string>
             <width>16777215</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
           </property>
           <property name="currentIndex">
            <number>-1</number>
@@ -503,7 +509,7 @@ border:none;</string>
        <property name="styleSheet">
         <string notr="true">QWidget {
 	
-	background-color: #5C3B8F;
+	background-color: #2F0746;
 color: white;	
 
 }
@@ -599,11 +605,11 @@ QPushButton{
 	padding-left: -55px;
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
             </property>
@@ -646,11 +652,11 @@ QPushButton:hover{
 	
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
             </property>
@@ -693,11 +699,11 @@ QPushButton:hover{
 	
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
             </property>
@@ -763,7 +769,7 @@ QPushButton:hover{
 	
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
                </property>
@@ -837,11 +843,11 @@ QPushButton:hover{
 	
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
                   </property>
@@ -877,11 +883,11 @@ QPushButton:checked{
 	
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
                   </property>
@@ -942,7 +948,7 @@ QPushButton:checked{
 }
 
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
                </property>
@@ -1013,11 +1019,11 @@ QPushButton:hover{
 }
 
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
                   </property>
@@ -1053,11 +1059,11 @@ QPushButton:checked{
 	
 }
 QPushButton:hover{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }
 QPushButton:checked{
-	background-color: #3A185B;
+	background-color: #5C3B8F;
 	border-radius: 8px; 
 }</string>
                   </property>
@@ -1108,6 +1114,12 @@ QPushButton:checked{
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_12">
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover{
+	background-color: #5C3B8F;
+	border-radius: 10px; 
+}</string>
+          </property>
           <property name="text">
            <string>THOÁT</string>
           </property>

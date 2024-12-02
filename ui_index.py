@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.icon_only_widget.setMinimumSize(QSize(110, 0))
         self.icon_only_widget.setMaximumSize(QSize(110, 16777215))
         self.icon_only_widget.setStyleSheet(u"QWidget {\n"
-"	background-color: #5C3B8F;\n"
+"	background-color: #2F0746;\n"
 "color: white;	\n"
 "}\n"
 "QPushButton{\n"
@@ -51,11 +51,11 @@ class Ui_MainWindow(object):
 "	\n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 10px; \n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 10px; \n"
 "}\n"
 "")
@@ -191,7 +191,8 @@ class Ui_MainWindow(object):
         self.header_widget.setMinimumSize(QSize(845, 71))
         self.header_widget.setMaximumSize(QSize(16777215, 16777215))
         self.header_widget.setStyleSheet(u"QWidget{\n"
-"	background-color:#758F3B;\n"
+"	\n"
+"	background-image: url(:/images/asset/last_background.jpg);\n"
 "\n"
 "}")
         self.layoutWidget = QWidget(self.header_widget)
@@ -203,7 +204,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 15)
         self.pushButton = QPushButton(self.layoutWidget)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setStyleSheet(u"\n"
+        self.pushButton.setStyleSheet(u"	background: transparent;\n"
 "	border:none;\n"
 "	\n"
 "\n"
@@ -226,7 +227,8 @@ class Ui_MainWindow(object):
         font1.setPointSize(12)
         font1.setBold(True)
         self.label.setFont(font1)
-        self.label.setStyleSheet(u"color: white;")
+        self.label.setStyleSheet(u"color: white;\n"
+"background: transparent;")
 
         self.verticalLayout_9.addWidget(self.label)
 
@@ -236,7 +238,8 @@ class Ui_MainWindow(object):
         font2.setPointSize(11)
         font2.setBold(False)
         self.label_2.setFont(font2)
-        self.label_2.setStyleSheet(u"color: white;")
+        self.label_2.setStyleSheet(u"color: white;\n"
+"background: transparent;")
 
         self.verticalLayout_9.addWidget(self.label_2)
 
@@ -254,12 +257,13 @@ class Ui_MainWindow(object):
         self.main_screen_widget.setObjectName(u"main_screen_widget")
         self.main_screen_widget.setMinimumSize(QSize(843, 780))
         self.main_screen_widget.setMaximumSize(QSize(16777215, 16777215))
-        self.main_screen_widget.setStyleSheet(u"background-color: #F7FFE3 ;\n"
+        self.main_screen_widget.setStyleSheet(u"background-color: #white;\n"
 "border:none;")
         self.stackedWidget = QStackedWidget(self.main_screen_widget)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setGeometry(QRect(0, 10, 851, 751))
         self.stackedWidget.setMaximumSize(QSize(16777215, 16777215))
+        self.stackedWidget.setStyleSheet(u"")
 
         self.verticalLayout_10.addWidget(self.main_screen_widget)
 
@@ -272,7 +276,7 @@ class Ui_MainWindow(object):
         self.icon_text_widget.setMaximumSize(QSize(292, 16777215))
         self.icon_text_widget.setStyleSheet(u"QWidget {\n"
 "	\n"
-"	background-color: #5C3B8F;\n"
+"	background-color: #2F0746;\n"
 "color: white;	\n"
 "\n"
 "}\n"
@@ -333,11 +337,11 @@ class Ui_MainWindow(object):
 "	padding-left: -55px;\n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.TienXL1.setIcon(icon)
@@ -357,11 +361,11 @@ class Ui_MainWindow(object):
 "	\n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.TapPB1.setIcon(icon1)
@@ -381,11 +385,11 @@ class Ui_MainWindow(object):
 "	\n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.TapTho1.setIcon(icon2)
@@ -417,7 +421,7 @@ class Ui_MainWindow(object):
 "	\n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.PhanLop1.setIcon(icon3)
@@ -450,11 +454,11 @@ class Ui_MainWindow(object):
 "	\n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.CayQD.setCheckable(True)
@@ -475,11 +479,11 @@ class Ui_MainWindow(object):
 "	\n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.NaiveBayes.setCheckable(True)
@@ -511,7 +515,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.GomCum1.setIcon(icon4)
@@ -540,11 +544,11 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.KMean.setCheckable(True)
@@ -562,11 +566,11 @@ class Ui_MainWindow(object):
 "	\n"
 "}\n"
 "QPushButton:hover{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}\n"
 "QPushButton:checked{\n"
-"	background-color: #3A185B;\n"
+"	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
 "}")
         self.Konohen.setCheckable(True)
@@ -598,6 +602,10 @@ class Ui_MainWindow(object):
 
         self.pushButton_12 = QPushButton(self.icon_text_widget)
         self.pushButton_12.setObjectName(u"pushButton_12")
+        self.pushButton_12.setStyleSheet(u"QPushButton:hover{\n"
+"	background-color: #5C3B8F;\n"
+"	border-radius: 10px; \n"
+"}")
         self.pushButton_12.setIcon(icon5)
         self.pushButton_12.setIconSize(QSize(32, 32))
         self.pushButton_12.setCheckable(True)
