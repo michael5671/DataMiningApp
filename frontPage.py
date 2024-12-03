@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QMenu, QButtonGroup
+from PySide6.QtWidgets import QMainWindow, QMenu, QButtonGroup, QVBoxLayout
 from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt, QPoint
 from ui_index import Ui_MainWindow
@@ -24,6 +24,8 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.gomcum_dropdown.hide()
         self.PhanLop1.clicked.connect(self.toggle_phanlop_dropdown)
         self.GomCum1.clicked.connect(self.toggle_gomcum_dropdown)
+
+        
         
         #Switch giữa các trang
         self.pages = [
@@ -35,7 +37,15 @@ class MySideBar(QMainWindow, Ui_MainWindow):
             KMean(),
             Konohen(),
         ]
+
+        for page in self.pages:
+            self.stackedWidget.addWidget(page)
         
+        layout = QVBoxLayout(self.main_screen_widget)  # Sử dụng QVBoxLayout
+        layout.addWidget(self.stackedWidget)  # Thêm stackedWidget vào layout
+        layout.setContentsMargins(0, 0, 0, 0)  # Đặt margin bằng 0
+        layout.setSpacing(0)
+        self.main_screen_widget.setLayout(layout) 
         
         # Thêm các widget thực tế
         for page in self.pages:
