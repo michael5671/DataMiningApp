@@ -24,7 +24,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1272, 797)
+        MainWindow.resize(1272, 852)
+        MainWindow.setMaximumSize(QSize(1272, 852))
         font = QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
@@ -32,7 +33,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(0, 0, 1267, 801))
+        self.layoutWidget.setGeometry(QRect(0, 0, 1267, 855))
         self.gridLayout = QGridLayout(self.layoutWidget)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
@@ -257,7 +258,7 @@ class Ui_MainWindow(object):
         self.main_screen_widget.setObjectName(u"main_screen_widget")
         self.main_screen_widget.setMinimumSize(QSize(843, 780))
         self.main_screen_widget.setMaximumSize(QSize(16777215, 16777215))
-        self.main_screen_widget.setStyleSheet(u"background-color: #white;\n"
+        self.main_screen_widget.setStyleSheet(u"background-color: white;\n"
 "border:none;")
         self.stackedWidget = QStackedWidget(self.main_screen_widget)
         self.stackedWidget.setObjectName(u"stackedWidget")

@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1272</width>
-    <height>797</height>
+    <height>852</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1272</width>
+    <height>852</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -25,7 +31,7 @@
       <x>0</x>
       <y>0</y>
       <width>1267</width>
-      <height>801</height>
+      <height>855</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -97,7 +103,7 @@ QPushButton:hover{
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="asset.qrc">:/images/asset/logo.png</pixmap>
+             <pixmap resource="../../DataMiningUIApp/asset.qrc">:/images/asset/logo.png</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -152,7 +158,7 @@ QPushButton:hover{
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/table-list.svg</normaloff>:/images/asset/table-list.svg</iconset>
             </property>
             <property name="iconSize">
@@ -175,7 +181,7 @@ QPushButton:hover{
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/circle-nodes-solid.svg</normaloff>:/images/asset/circle-nodes-solid.svg</iconset>
             </property>
             <property name="iconSize">
@@ -198,7 +204,7 @@ QPushButton:hover{
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/list-solid.svg</normaloff>:/images/asset/list-solid.svg</iconset>
             </property>
             <property name="iconSize">
@@ -221,7 +227,7 @@ QPushButton:hover{
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/sitemap-solid.svg</normaloff>:/images/asset/sitemap-solid.svg</iconset>
             </property>
             <property name="iconSize">
@@ -244,7 +250,7 @@ QPushButton:hover{
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/object-ungroup-solid.svg</normaloff>:/images/asset/object-ungroup-solid.svg</iconset>
             </property>
             <property name="iconSize">
@@ -295,7 +301,7 @@ QPushButton:hover{
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="asset.qrc">
+           <iconset resource="../../DataMiningUIApp/asset.qrc">
             <normaloff>:/images/asset/log-out.svg</normaloff>:/images/asset/log-out.svg</iconset>
           </property>
           <property name="iconSize">
@@ -373,7 +379,7 @@ QPushButton:hover{
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="asset.qrc">
+              <iconset resource="../../DataMiningUIApp/asset.qrc">
                <normaloff>:/images/asset/bars-solid.svg</normaloff>:/images/asset/bars-solid.svg</iconset>
              </property>
              <property name="iconSize">
@@ -463,7 +469,7 @@ background: transparent;</string>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: #white;
+          <string notr="true">background-color: white;
 border:none;</string>
          </property>
          <widget class="QStackedWidget" name="stackedWidget">
@@ -542,7 +548,7 @@ QPushButton{
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="asset.qrc">:/images/asset/logo.png</pixmap>
+             <pixmap resource="../../DataMiningUIApp/asset.qrc">:/images/asset/logo.png</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -617,7 +623,7 @@ QPushButton:hover{
              <string> Tiền xử lý dữ liệu</string>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/table-list.svg</normaloff>:/images/asset/table-list.svg</iconset>
             </property>
             <property name="iconSize">
@@ -664,7 +670,7 @@ QPushButton:hover{
              <string> Tập phổ biến, Luật kết hợp</string>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/circle-nodes-solid.svg</normaloff>:/images/asset/circle-nodes-solid.svg</iconset>
             </property>
             <property name="iconSize">
@@ -711,7 +717,7 @@ QPushButton:hover{
              <string> Tập Thô</string>
             </property>
             <property name="icon">
-             <iconset resource="asset.qrc">
+             <iconset resource="../../DataMiningUIApp/asset.qrc">
               <normaloff>:/images/asset/list-solid.svg</normaloff>:/images/asset/list-solid.svg</iconset>
             </property>
             <property name="iconSize">
@@ -777,7 +783,7 @@ QPushButton:hover{
                 <string> Phân lớp dữ liệu</string>
                </property>
                <property name="icon">
-                <iconset resource="asset.qrc">
+                <iconset resource="../../DataMiningUIApp/asset.qrc">
                  <normaloff>:/images/asset/sitemap-solid.svg</normaloff>:/images/asset/sitemap-solid.svg</iconset>
                </property>
                <property name="iconSize">
@@ -956,7 +962,7 @@ QPushButton:hover{
                 <string>Gom cụm</string>
                </property>
                <property name="icon">
-                <iconset resource="asset.qrc">
+                <iconset resource="../../DataMiningUIApp/asset.qrc">
                  <normaloff>:/images/asset/object-ungroup-solid.svg</normaloff>:/images/asset/object-ungroup-solid.svg</iconset>
                </property>
                <property name="iconSize">
@@ -1124,7 +1130,7 @@ QPushButton:checked{
            <string>THOÁT</string>
           </property>
           <property name="icon">
-           <iconset resource="asset.qrc">
+           <iconset resource="../../DataMiningUIApp/asset.qrc">
             <normaloff>:/images/asset/log-out.svg</normaloff>:/images/asset/log-out.svg</iconset>
           </property>
           <property name="iconSize">
@@ -1146,7 +1152,7 @@ QPushButton:checked{
   </widget>
  </widget>
  <resources>
-  <include location="asset.qrc"/>
+  <include location="../../DataMiningUIApp/asset.qrc"/>
  </resources>
  <connections>
   <connection>
