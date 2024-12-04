@@ -24,8 +24,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1272, 852)
-        MainWindow.setMaximumSize(QSize(1272, 852))
+        MainWindow.resize(1268, 830)
+        MainWindow.setMaximumSize(QSize(1272, 830))
         font = QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(0, 0, 1267, 855))
+        self.layoutWidget.setGeometry(QRect(0, 0, 1267, 831))
         self.gridLayout = QGridLayout(self.layoutWidget)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")

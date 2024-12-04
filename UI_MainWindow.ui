@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1272</width>
-    <height>852</height>
+    <width>1268</width>
+    <height>830</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
     <width>1272</width>
-    <height>852</height>
+    <height>830</height>
    </size>
   </property>
   <property name="font">
@@ -31,7 +31,7 @@
       <x>0</x>
       <y>0</y>
       <width>1267</width>
-      <height>855</height>
+      <height>831</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
