@@ -24,20 +24,20 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1272, 852)
+        MainWindow.resize(1272, 797)
         font = QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 1267, 853))
-        self.gridLayout = QGridLayout(self.widget)
+        self.layoutWidget = QWidget(self.centralwidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(0, 0, 1267, 801))
+        self.gridLayout = QGridLayout(self.layoutWidget)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.icon_only_widget = QWidget(self.widget)
+        self.icon_only_widget = QWidget(self.layoutWidget)
         self.icon_only_widget.setObjectName(u"icon_only_widget")
         self.icon_only_widget.setMinimumSize(QSize(110, 0))
         self.icon_only_widget.setMaximumSize(QSize(110, 16777215))
@@ -186,7 +186,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_10 = QVBoxLayout()
         self.verticalLayout_10.setSpacing(0)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.header_widget = QWidget(self.widget)
+        self.header_widget = QWidget(self.layoutWidget)
         self.header_widget.setObjectName(u"header_widget")
         self.header_widget.setMinimumSize(QSize(845, 71))
         self.header_widget.setMaximumSize(QSize(16777215, 16777215))
@@ -195,14 +195,14 @@ class Ui_MainWindow(object):
 "	background-image: url(:/images/asset/last_background.jpg);\n"
 "\n"
 "}")
-        self.layoutWidget = QWidget(self.header_widget)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(10, 10, 836, 82))
-        self.horizontalLayout_3 = QHBoxLayout(self.layoutWidget)
+        self.layoutWidget1 = QWidget(self.header_widget)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(10, 10, 836, 82))
+        self.horizontalLayout_3 = QHBoxLayout(self.layoutWidget1)
         self.horizontalLayout_3.setSpacing(15)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 15)
-        self.pushButton = QPushButton(self.layoutWidget)
+        self.pushButton = QPushButton(self.layoutWidget1)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setStyleSheet(u"	background: transparent;\n"
 "	border:none;\n"
@@ -221,7 +221,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.setSpacing(9)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setContentsMargins(-1, -1, -1, 15)
-        self.label = QLabel(self.layoutWidget)
+        self.label = QLabel(self.layoutWidget1)
         self.label.setObjectName(u"label")
         font1 = QFont()
         font1.setPointSize(12)
@@ -232,7 +232,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_9.addWidget(self.label)
 
-        self.label_2 = QLabel(self.layoutWidget)
+        self.label_2 = QLabel(self.layoutWidget1)
         self.label_2.setObjectName(u"label_2")
         font2 = QFont()
         font2.setPointSize(11)
@@ -253,7 +253,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.header_widget)
 
-        self.main_screen_widget = QWidget(self.widget)
+        self.main_screen_widget = QWidget(self.layoutWidget)
         self.main_screen_widget.setObjectName(u"main_screen_widget")
         self.main_screen_widget.setMinimumSize(QSize(843, 780))
         self.main_screen_widget.setMaximumSize(QSize(16777215, 16777215))
@@ -270,7 +270,7 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addLayout(self.verticalLayout_10, 0, 2, 1, 1)
 
-        self.icon_text_widget = QWidget(self.widget)
+        self.icon_text_widget = QWidget(self.layoutWidget)
         self.icon_text_widget.setObjectName(u"icon_text_widget")
         self.icon_text_widget.setMinimumSize(QSize(0, 0))
         self.icon_text_widget.setMaximumSize(QSize(292, 16777215))
