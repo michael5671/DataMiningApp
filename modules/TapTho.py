@@ -19,7 +19,7 @@ class TapTho(QWidget):
         """Khởi tạo giao diện người dùng"""
         self.tabs = QTabWidget(self)
         self.layout.addWidget(self.tabs)
-        
+
         # Tab 1: Nhập file
         self.tab1 = QWidget()
         self.tabs.addTab(self.tab1, "Nhập file Excel hoặc CSV")
@@ -27,12 +27,12 @@ class TapTho(QWidget):
         self.loadButton = QPushButton("Chọn file Excel hoặc CSV", self)
         self.layout1.addWidget(self.loadButton)
         self.loadButton.clicked.connect(self.loadFile)
-        
+
         self.resultText1 = QTextEdit(self)
         self.resultText1.setReadOnly(True)
         self.layout1.addWidget(self.resultText1)
-        
-        # Tab 2: Tính xấp xỉ
+
+# Tab 2: Tính xấp xỉ
         self.tab2 = QWidget()
         self.tabs.addTab(self.tab2, "Tính xấp xỉ")
         self.layout2 = QVBoxLayout(self.tab2)
@@ -69,7 +69,7 @@ class TapTho(QWidget):
         self.resultText3 = QTextEdit(self)
         self.resultText3.setReadOnly(True)
         self.layout3.addWidget(self.resultText3)
-
+        
         # Tab 4: Tìm Reduct
         self.tab4 = QWidget()
         self.tabs.addTab(self.tab4, "Tìm Reduct")
@@ -112,71 +112,100 @@ class TapTho(QWidget):
             self.condition_input.clear()
             self.condition_input.addItems(self.df.columns.tolist())
 
+    def loadFile(self):
+        """Chọn file Excel hoặc CSV và xử lý dữ liệu"""
+        options = QFileDialog.Options()
+        file, _ = QFileDialog.getOpenFileName(self, "Chọn file", "", "Excel Files (*.xls *.xlsx);;CSV Files (*.csv)", options=options)
+
+        if file:
+            if file.endswith('.csv'):
+                self.df = pd.read_csv(file)  # Đọc file CSV vào DataFrame
+            else:
+                self.df = pd.read_excel(file)  # Đọc file Excel vào DataFrame
+            self.resultText1.setHtml(f"<b>Đã tải file:</b> {file}<br><br>")
+            self.resultText1.append(f"<b>Dữ liệu đầu tiên:</b><br>{self.df.head().to_html(index=False)}<br>")
+
+            # Cập nhật dropdown thuộc tính quyết định và điều kiện
+            self.decision_input.clear()
+            self.decision_input.addItems(self.df.columns.tolist())
+            self.condition_input.clear()
+            self.condition_input.addItems(self.df.columns.tolist())
+
     def calculateApproximation(self):
         """Tính toán xấp xỉ dưới và trên"""
         try:
-            # Lấy tập X và B từ input
             X = set(self.X_input.text().split(","))
-            X = {f"o{i}" for i in X}  # Chuyển đổi X thành các đối tượng o1, o2, o3...
+            # Chuyển sang định dạng giống như trong các lớp tương đương (o1, o2, o3, ...)
+            X = {f"o{i}" for i in X}
 
             B = self.B_input.text().split(",")
-
-            # Kiểm tra các cột tồn tại trong tập B
+            
+            # Kiểm tra các cột tồn tại
             missing_columns = [col for col in B if col not in self.df.columns]
             if missing_columns:
                 self.resultText2.setText(f"Các thuộc tính không tồn tại trong dữ liệu: {', '.join(missing_columns)}")
                 return
 
-            # Tính các lớp tương đương (equivalence classes)
+            # In ra giá trị của X để kiểm tra
+            print(f"Tập X nhập vào (sau khi chuyển đổi): {X}")
+
             equivalence_classes = self.computeEquivalenceClasses(B)
 
-            # Tính toán xấp xỉ dưới và trên
             lower_approx = self.lowerApproximation(X, equivalence_classes)
             upper_approx = self.upperApproximation(X, equivalence_classes)
 
             # Hiển thị kết quả
             self.resultText2.clear()
             self.resultText2.append(f"<b>Các lớp tương đương (IND):</b><br>{self.formatEquivalenceClasses(equivalence_classes)}")
-            self.resultText2.append(f"<b>Xấp xỉ dưới (Lower Approximation):</b><br>{lower_approx}")
-            self.resultText2.append(f"<b>Xấp xỉ trên (Upper Approximation):</b><br>{upper_approx}")
+            self.resultText2.append(f"<b>Xấp xỉ dưới (Lower):</b> {', '.join(lower_approx)}")
+            self.resultText2.append(f"<b>Xấp xỉ trên (Upper):</b> {', '.join(upper_approx)}")
 
+            accuracy = len(lower_approx) / len(upper_approx)
+            self.resultText2.append(f"<b>Độ chính xác:</b> {accuracy:.2f}")
+            
+            # Đưa ra kết luận
+            if accuracy == 1:
+                self.resultText2.append("<b>Kết luận:</b> Tập X rõ với B.")
+            elif accuracy < 1:
+                self.resultText2.append("<b>Kết luận:</b> Tập X là thô so với B.")
+            else:
+                self.resultText2.append("<b>Kết luận:</b> Độ chính xác không xác định.")
         except Exception as e:
-            self.resultText2.setText(f"Đã xảy ra lỗi: {str(e)}")
+            self.resultText2.setText(f"Lỗi khi tính xấp xỉ: {str(e)}")
 
     def computeEquivalenceClasses(self, B):
-        """Tính toán các lớp tương đương (Equivalence classes) từ tập B"""
+        """Tạo lớp tương đương từ các giá trị trong tập B"""
         equivalence_classes = defaultdict(set)
-
-        # Nhóm dữ liệu theo các thuộc tính trong B
-        for _, row in self.df.iterrows():
-            key = tuple(row[col] for col in B)
-            equivalence_classes[key].add(f"o{row.name+1}")  # Dùng o{index+1} làm identifier
-        
+        for i, row in self.df.iterrows():
+            key = tuple(row[col] for col in B)  # Lấy giá trị của các thuộc tính trong B
+            equivalence_classes[key].add(f"o{i+1}")  # Gắn nhãn "o1", "o2", ... vào lớp tương đương
         return equivalence_classes
 
     def lowerApproximation(self, X, equivalence_classes):
-        """Tính xấp xỉ dưới của tập X"""
-        # Xấp xỉ dưới là các đối tượng thuộc về lớp tương đương hoàn toàn với X
+        """Tính xấp xỉ dưới (Lower)"""
         lower_approx = set()
-        for key, obj_set in equivalence_classes.items():
-            if obj_set.issubset(X):
-                lower_approx.update(obj_set)
+        for eq_class in equivalence_classes.values():
+            # Thêm các lớp tương đương hoàn toàn nằm trong tập X
+            if eq_class.issubset(X):
+                lower_approx.update(eq_class)
         return lower_approx
 
     def upperApproximation(self, X, equivalence_classes):
-        """Tính xấp xỉ trên của tập X"""
-        # Xấp xỉ trên là các đối tượng có thể thuộc về lớp tương đương của X
+        """Tính xấp xỉ trên (Upper)"""
         upper_approx = set()
-        for key, obj_set in equivalence_classes.items():
-            if not obj_set.isdisjoint(X):
-                upper_approx.update(obj_set)
+        for eq_class in equivalence_classes.values():
+            # Thêm các lớp tương đương có giao với tập X
+            if eq_class.intersection(X):
+                upper_approx.update(eq_class)
         return upper_approx
 
     def formatEquivalenceClasses(self, equivalence_classes):
-        """Hiển thị các lớp tương đương dưới dạng chuỗi"""
-        formatted = "<br>".join([f"{key}: {', '.join(value)}" for key, value in equivalence_classes.items()])
+        """Định dạng các lớp tương đương để hiển thị"""
+        formatted = "<ul>"
+        for key, eq_class in equivalence_classes.items():
+            formatted += f"<li><b>{key}:</b> {', '.join(eq_class)}</li>"
+        formatted += "</ul>"
         return formatted
-
 
     def analyzeDependency(self):
         """Khảo sát sự phụ thuộc của C vào B"""
@@ -264,6 +293,14 @@ class TapTho(QWidget):
         except Exception as e:
             print(f"Lỗi khi tính dependency: {e}")
             return 0
+
+    def computeEquivalenceClasses(self, B):
+        """Tạo lớp tương đương từ các giá trị trong tập B"""
+        equivalence_classes = defaultdict(set)
+        for i, row in self.df.iterrows():
+            key = tuple(row[col] for col in B)  # Lấy giá trị của các thuộc tính trong B
+            equivalence_classes[key].add(f"o{i+1}")  # Gắn nhãn "o1", "o2", ... vào lớp tương đương
+        return equivalence_classes
 
     def findReduct(self):
         """Tìm Reduct từ tập thuộc tính trong dữ liệu và hiển thị các luật phân lớp"""
