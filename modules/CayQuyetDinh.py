@@ -1,98 +1,133 @@
-from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QFileDialog, QTabWidget, QHBoxLayout
+from PySide6.QtWidgets import (
+    QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
+    QPushButton, QFileDialog, QTabWidget, QTableWidget, QTableWidgetItem, QSpacerItem, QSizePolicy
+)
+from PySide6.QtGui import QPixmap, QFont
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree, export_graphviz
 from sklearn import metrics
 from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
-import pydotplus
-from IPython.display import Image
-from sklearn.preprocessing import LabelEncoder
-import pandas as pd
+
 
 class CayQuyetDinh(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Cây Quyết Định")
-        self.setGeometry(100, 100, 800, 600)
-        self.df = None  # DataFrame để chứa dữ liệu
+        self.setWindowTitle("Cây Quyết Định - Trực Quan Hóa")
+        self.setGeometry(100, 100, 1200, 800)
+        self.df = None
+        self.clf_gini = None
+        self.clf_entropy = None
+        self.label_encoders = {}
+        self.y_encoder = None
         self.setup_ui()
 
     def setup_ui(self):
-        # Tạo QTabWidget để chia giao diện thành các tab
+        self.setStyleSheet("""
+            QPushButton {
+                background-color: #5B8C5A;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                background-color: #417B44;
+            }
+            QLabel {
+                font-size: 14px;
+                color: #333;
+            }
+            QTableWidget {
+                border: 1px solid #ccc;
+                font-size: 14px;
+                background-color: #F9F9F9;
+            }
+            QTabWidget::pane {
+                background: #F4F4F4;
+                border-radius: 5px;
+            }
+        """)
+
         self.tabs = QTabWidget(self)
-        self.tabs.setTabPosition(QTabWidget.North)  # Đặt các tab về phía bên trái
-        self.tabs.setStyleSheet("""
-                    
-                """)
-        # Tab 1: Nhập file
+        self.tabs.setTabPosition(QTabWidget.North)
+
+        # Tabs
         self.file_tab = QWidget()
         self.setup_file_tab()
         
-        # Tab 2: Vẽ cây quyết định
         self.tree_tab = QWidget()
         self.setup_tree_tab()
 
-        # Tab 3: Biến đổi cây thành luật if-then
         self.rules_tab = QWidget()
         self.setup_rules_tab()
 
-        # Thêm các tab vào QTabWidget
-        self.tabs.addTab(self.file_tab, "Nhập file")
-        self.tabs.addTab(self.tree_tab, "Vẽ cây quyết định")
-        self.tabs.addTab(self.rules_tab, "Biến đổi cây thành luật if-then")
+        self.tabs.addTab(self.file_tab, "Nhập File")
+        self.tabs.addTab(self.tree_tab, "Vẽ Cây Quyết Định")
+        self.tabs.addTab(self.rules_tab, "Luật If-Then")
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)  # Loại bỏ margin của widget lớn nhất
+        layout.setContentsMargins(10, 10, 10, 10)
         layout.addWidget(self.tabs)
         self.setLayout(layout)
 
     def setup_file_tab(self):
-        # Layout của tab nhập file
         layout = QVBoxLayout()
 
-        # Nút chọn file
-        self.select_file_button = QPushButton("   Chọn File (Excel hoặc CSV)  ", self)
-        self.select_file_button.setFixedWidth(self.select_file_button.fontMetrics().boundingRect(self.select_file_button.text()).width())  # Đặt chiều rộng nút theo chiều dài của text
+        self.select_file_button = QPushButton("Chọn File (Excel hoặc CSV)")
         self.select_file_button.clicked.connect(self.select_file)
         layout.addWidget(self.select_file_button)
 
-        # Kết quả hiển thị dữ liệu đã tải
-        self.result_label = QLabel("", self)
+        self.table_widget = QTableWidget()
+        layout.addWidget(self.table_widget)
+
+        self.result_label = QLabel("Chưa có dữ liệu được tải.")
         layout.addWidget(self.result_label)
+
+        layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
 
         self.file_tab.setLayout(layout)
 
     def setup_tree_tab(self):
-        # Layout của tab vẽ cây quyết định
         layout = QVBoxLayout()
 
-        # Nút vẽ cây quyết định
-        self.draw_tree_button = QPushButton("   Vẽ Cây Quyết Định  ", self)
-        self.draw_tree_button.setFixedWidth(self.draw_tree_button.fontMetrics().boundingRect(self.draw_tree_button.text()).width())  # Đặt chiều rộng nút theo chiều dài của text
+        self.draw_tree_button = QPushButton("Vẽ Cây Quyết Định")
         self.draw_tree_button.clicked.connect(self.analyze_data)
         layout.addWidget(self.draw_tree_button)
 
-        # Kết quả tính Gain và Gini
-        self.result_label_tree = QLabel("", self)
-        layout.addWidget(self.result_label_tree)
+        accuracy_layout = QHBoxLayout()
+        self.result_label_accuracy_gini = QLabel("Accuracy (Gini): -")
+        self.result_label_accuracy_entropy = QLabel("Accuracy (Entropy): -")
 
+        accuracy_layout.addWidget(self.result_label_accuracy_gini)
+        accuracy_layout.addWidget(self.result_label_accuracy_entropy)
+        layout.addLayout(accuracy_layout)
+
+        self.tree_image_gini_label = QLabel("Hình Cây Gini:")
+        self.tree_image_entropy_label = QLabel("Hình Cây Entropy:")
+
+        self.tree_image_gini_label.setFixedHeight(300)
+        self.tree_image_entropy_label.setFixedHeight(300)
+
+        layout.addWidget(self.tree_image_gini_label)
+        layout.addWidget(self.tree_image_entropy_label)
+        
         self.tree_tab.setLayout(layout)
 
     def setup_rules_tab(self):
-        # Layout của tab biến đổi cây thành luật if-then
         layout = QVBoxLayout()
 
-        # Nút hiển thị luật if-then
-        self.show_rules_button = QPushButton("   Hiển thị Luật IF-THEN  ", self)
-        self.show_rules_button.setFixedWidth(self.show_rules_button.fontMetrics().boundingRect(self.show_rules_button.text()).width())  # Đặt chiều rộng nút theo chiều dài của text
+        self.show_rules_button = QPushButton("Hiển Thị Luật If-Then")
         self.show_rules_button.clicked.connect(self.show_if_then_rules)
         layout.addWidget(self.show_rules_button)
 
-        # Label hiển thị các luật if-then
-        self.rules_label = QLabel("", self)
+        self.rules_label = QLabel("Chưa có luật được tạo.")
+        self.rules_label.setFont(QFont("Arial", 14))
+        self.rules_label.setWordWrap(True)
         layout.addWidget(self.rules_label)
+
+        layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
 
         self.rules_tab.setLayout(layout)
 
@@ -111,125 +146,121 @@ class CayQuyetDinh(QWidget):
                 self.df = pd.read_csv(file_path)
             else:
                 self.df = pd.read_excel(file_path)
-            self.result_label.setText(f"Dữ liệu đã tải xong:\n{self.df.head()}")
+            
+            self.df.columns = self.df.columns.str.strip().str.replace(' ', '_')
+            
+            self.result_label.setText(f"Dữ liệu đã tải xong.")
+            self.update_table_widget()
         except Exception as e:
             self.result_label.setText(f"Lỗi khi đọc dữ liệu: {e}")
 
+    def update_table_widget(self):
+        if self.df is not None:
+            self.table_widget.setColumnCount(len(self.df.columns))
+            self.table_widget.setRowCount(len(self.df))
+            self.table_widget.setHorizontalHeaderLabels(self.df.columns)
+
+            for row_idx, row in self.df.iterrows():
+                for col_idx, value in enumerate(row):
+                    self.table_widget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+
     def analyze_data(self):
         if self.df is None:
-            self.result_label_tree.setText("Chưa có dữ liệu!")
+            self.result_label_accuracy_gini.setText("Chưa có dữ liệu!")
             return
 
-        # Giả sử cột cuối cùng là nhãn (Label)
-        X = self.df.iloc[:, :-1]  # Các thuộc tính
-        y = self.df.iloc[:, -1]   # Nhãn
+        X = self.df.iloc[:, :-1]
+        y = self.df.iloc[:, -1]
 
-        # Mã hóa dữ liệu chuỗi thành số
-        label_encoders = {}
         for column in X.columns:
             le = LabelEncoder()
             X[column] = le.fit_transform(X[column])
-            label_encoders[column] = le
+            self.label_encoders[column] = le
 
-        # Mã hóa nhãn nếu nhãn là chuỗi
         y_encoder = LabelEncoder()
         y = y_encoder.fit_transform(y)
+        self.y_encoder = y_encoder
 
-        # Chia dữ liệu thành tập huấn luyện và tập kiểm tra
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-        # Xây dựng cây quyết định với tiêu chí Gini
-        clf_gini = DecisionTreeClassifier(criterion='gini', random_state=42)
-        clf_gini.fit(X_train, y_train)
+        # Gini
+        self.clf_gini = DecisionTreeClassifier(criterion='gini', random_state=42)
+        self.clf_gini.fit(X_train, y_train)
+        accuracy_gini = metrics.accuracy_score(y_test, self.clf_gini.predict(X_test))
+        self.result_label_accuracy_gini.setText(f"Accuracy (Gini): {accuracy_gini:.2f}")
 
-        # Dự đoán và đánh giá
-        y_pred_gini = clf_gini.predict(X_test)
-        print("Accuracy với Gini:", metrics.accuracy_score(y_test, y_pred_gini))
+        # Entropy
+        self.clf_entropy = DecisionTreeClassifier(criterion='entropy', random_state=42)
+        self.clf_entropy.fit(X_train, y_train)
+        accuracy_entropy = metrics.accuracy_score(y_test, self.clf_entropy.predict(X_test))
+        self.result_label_accuracy_entropy.setText(f"Accuracy (Entropy): {accuracy_entropy:.2f}")
 
-        # Xây dựng cây quyết định với tiêu chí Entropy (Information Gain)
-        clf_entropy = DecisionTreeClassifier(criterion='entropy', random_state=42)
-        clf_entropy.fit(X_train, y_train)
+        self.export_tree_image(self.clf_gini, X.columns, "Cây Gini", self.tree_image_gini_label)
+        self.export_tree_image(self.clf_entropy, X.columns, "Cây Entropy", self.tree_image_entropy_label)
 
-        # Dự đoán và đánh giá
-        y_pred_entropy = clf_entropy.predict(X_test)
-        print("Accuracy với Entropy:", metrics.accuracy_score(y_test, y_pred_entropy))
+    def export_tree_image(self, clf, feature_names, title, target_label):
+        plt.figure(figsize=(10, 5))
+        plot_tree(clf, feature_names=feature_names, class_names=self.y_encoder.classes_, filled=True)
+        plt.title(title)
+        plt.savefig(f"{title}.png")
+        plt.close()
 
-        # Hiển thị cấu trúc cây quyết định
-        print("\nCây Quyết Định với Gini:")
-        tree_rules_gini = export_text(clf_gini, feature_names=list(X.columns))
-        print(tree_rules_gini)
-
-        print("\nCây Quyết Định với Entropy:")
-        tree_rules_entropy = export_text(clf_entropy, feature_names=list(X.columns))
-        print(tree_rules_entropy)
-
-        # Trực quan hóa cây quyết định bằng matplotlib
-        plt.figure(figsize=(20, 10))
-        plot_tree(clf_gini, feature_names=X.columns, class_names=y_encoder.classes_, filled=True)
-        plt.title("Cây Quyết Định với tiêu chí Gini")
-        plt.savefig("decision_tree_gini.png")
-        plt.show()
-
-        plt.figure(figsize=(20, 10))
-        plot_tree(clf_entropy, feature_names=X.columns, class_names=y_encoder.classes_, filled=True)
-        plt.title("Cây Quyết Định với tiêu chí Entropy")
-        plt.savefig("decision_tree_entropy.png")
-        plt.show()
-
-        # Trực quan hóa cây quyết định bằng Graphviz
-        dot_data_gini = export_graphviz(clf_gini, out_file=None, 
-                                        feature_names=X.columns, 
-                                        class_names=y_encoder.classes_, 
-                                        filled=True, rounded=True, 
-                                        special_characters=True)  
-        graph_gini = pydotplus.graph_from_dot_data(dot_data_gini)  
-        graph_gini.write_png("decision_tree_gini_graphviz.png")  # Lưu ảnh với tiêu chí Gini
-        Image(graph_gini.create_png())
-
-        dot_data_entropy = export_graphviz(clf_entropy, out_file=None, 
-                                        feature_names=X.columns, 
-                                        class_names=y_encoder.classes_, 
-                                        filled=True, rounded=True, 
-                                        special_characters=True)  
-        graph_entropy = pydotplus.graph_from_dot_data(dot_data_entropy)  
-        graph_entropy.write_png("decision_tree_entropy_graphviz.png")  # Lưu ảnh với tiêu chí Entropy
-        Image(graph_entropy.create_png())
-
-    def encode_data(self, X, y):
-        # Mã hóa các đặc trưng trong X nếu chúng là chuỗi
-        label_encoders = {}
-        for column in X.columns:
-            if X[column].dtype == 'object':  # Kiểm tra nếu cột có dữ liệu chuỗi
-                le = LabelEncoder()
-                X[column] = le.fit_transform(X[column])
-                label_encoders[column] = le
-        
-        # Mã hóa nhãn (y) nếu là chuỗi
-        if y.dtype == 'object':
-            y_encoder = LabelEncoder()
-            y = y_encoder.fit_transform(y)
-        
-        return X, y, label_encoders
+        pixmap = QPixmap(f"{title}.png")
+        target_label.setPixmap(pixmap)
+        target_label.setScaledContents(True)
 
     def show_if_then_rules(self):
         if self.df is None:
             self.rules_label.setText("Chưa có dữ liệu!")
             return
 
-        # Lấy dữ liệu và chia thành các đặc trưng và nhãn
-        X = self.df.iloc[:, :-1]
-        y = self.df.iloc[:, -1]
+        if not hasattr(self, 'clf_gini') or not hasattr(self, 'clf_entropy'):
+            self.rules_label.setText("Chưa có cây quyết định để tạo luật!")
+            return
 
-        # Mã hóa dữ liệu nếu có cột chứa chuỗi
-        X, y, label_encoders = self.encode_data(X, y)
+        gini_rules = self.extract_if_then_rules(self.clf_gini)
+        entropy_rules = self.extract_if_then_rules(self.clf_entropy)
 
-        # Xây dựng cây quyết định với tiêu chí Gini
-        clf_gini = DecisionTreeClassifier(criterion='gini', random_state=42)
-        clf_gini.fit(X, y)
+        if not gini_rules.strip():
+            gini_rules = "Không có luật nào được tạo từ cây Gini."
+        if not entropy_rules.strip():
+            entropy_rules = "Không có luật nào được tạo từ cây Entropy."
 
-        # Xuất các luật if-then từ cây quyết định
-        tree_rules = export_text(clf_gini, feature_names=list(X.columns))
-        
-        # Hiển thị các luật if-then trong QLabel
-        self.rules_label.setText(f"Các luật IF-THEN:\n{tree_rules}")
+        self.rules_label.setText(f"Luật từ cây Gini:\n{gini_rules}\n\nLuật từ cây Entropy:\n{entropy_rules}")
+  
+    def extract_if_then_rules(self, clf):
+        # Lấy các luật từ cây quyết định
+        tree_rules = export_text(clf, feature_names=self.df.columns[:-1].tolist())
+        print("Tree Rules:\n", tree_rules)  # In ra cấu trúc của cây quyết định để kiểm tra
 
+        rules = []
+        current_rule = []
+
+        for rule in tree_rules.split('\n'):
+            if not rule.strip():
+                continue
+
+            # Làm sạch điều kiện, loại bỏ |--- và khoảng trắng thừa
+            rule = rule.replace('|', '').strip()
+            rule = rule.replace('-', '').strip()
+
+            # Tìm các điều kiện như "feature_name <= value"
+            if "<=" in rule or ">" in rule:
+                condition = rule.strip()  # Làm sạch điều kiện
+                current_rule.append(condition)
+            
+            # Tìm lớp (class) của nhãn trong cây quyết định
+            elif "class:" in rule:
+                # Lấy giá trị lớp
+                class_value = int(rule.split("class: ")[1].strip())
+                class_name = self.y_encoder.inverse_transform([class_value])[0]  # Giải mã lớp từ số thành chữ
+
+                # Tạo luật if-then
+                rule_if_then = " and ".join(current_rule)  # Kết hợp các điều kiện
+                rule_if_then = f"If {rule_if_then} Then Play = {class_name}"  # Đổi lớp thành Play = Yes/No
+                rules.append(rule_if_then)
+
+                # Reset điều kiện cho luật tiếp theo
+                current_rule = []
+
+        return "\n".join(rules)

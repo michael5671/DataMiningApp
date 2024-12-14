@@ -1,133 +1,157 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTabWidget, QPushButton, QFileDialog, QTextEdit, QLineEdit, QLabel, QComboBox, QListWidget
+from PySide6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QTabWidget, QPushButton, QFileDialog,
+    QTextEdit, QLineEdit, QLabel, QComboBox, QListWidget, QSizePolicy, QSpacerItem
+)
+from PySide6.QtGui import QFont
 import pandas as pd
 from collections import defaultdict
-import numpy as np
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import confusion_matrix
-from sklearn.tree import DecisionTreeClassifier
-from itertools import combinations
+
 
 class TapTho(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Widget Tập Thô")
-        self.setGeometry(100, 100, 800, 600)
+        self.setWindowTitle("Tập Thô - Ứng Dụng Data Mining")
+        self.setGeometry(100, 100, 1000, 800)
+        self.df = None  # Biến DataFrame để chứa dữ liệu
         self.layout = QVBoxLayout(self)
         self.initUI()
 
     def initUI(self):
         """Khởi tạo giao diện người dùng"""
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #FAFAFA;
+            }
+            QPushButton {
+                background-color: #5B8C5A;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                background-color: #417B44;
+            }
+            QLabel, QLineEdit {
+                font-size: 14px;
+                color: #333;
+            }
+            QTextEdit, QComboBox, QListWidget {
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #FFFFFF;
+            }
+        """)
+
         self.tabs = QTabWidget(self)
         self.layout.addWidget(self.tabs)
 
-        # Tab 1: Nhập file
-        self.tab1 = QWidget()
-        self.tabs.addTab(self.tab1, "Nhập file Excel hoặc CSV")
-        self.layout1 = QVBoxLayout(self.tab1)
-        self.loadButton = QPushButton("Chọn file Excel hoặc CSV", self)
-        self.layout1.addWidget(self.loadButton)
+        self.setup_file_tab()
+        self.setup_approximation_tab()
+        self.setup_dependency_tab()
+        self.setup_reduct_tab()
+
+    def setup_file_tab(self):
+        """Tab 1: Nhập File"""
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+
+        file_layout = QHBoxLayout()
+        self.loadButton = QPushButton("Chọn File (Excel hoặc CSV)")
         self.loadButton.clicked.connect(self.loadFile)
+        file_layout.addWidget(self.loadButton)
 
-        self.resultText1 = QTextEdit(self)
+        self.resultText1 = QTextEdit()
         self.resultText1.setReadOnly(True)
-        self.layout1.addWidget(self.resultText1)
+        layout.addLayout(file_layout)
+        layout.addWidget(self.resultText1)
+        layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
+        self.tabs.addTab(tab, "Nhập File")
 
-# Tab 2: Tính xấp xỉ
-        self.tab2 = QWidget()
-        self.tabs.addTab(self.tab2, "Tính xấp xỉ")
-        self.layout2 = QVBoxLayout(self.tab2)
-        self.X_input = QLineEdit(self)
+    def setup_approximation_tab(self):
+        """Tab 2: Tính Xấp Xỉ"""
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+
+        self.X_input = QLineEdit()
         self.X_input.setPlaceholderText("Nhập tập X")
-        self.layout2.addWidget(self.X_input)
-        self.B_input = QLineEdit(self)
+        layout.addWidget(self.X_input)
+
+        self.B_input = QLineEdit()
         self.B_input.setPlaceholderText("Nhập tập B")
-        self.layout2.addWidget(self.B_input)
-        
-        self.approxButton = QPushButton("Tính xấp xỉ", self)
-        self.layout2.addWidget(self.approxButton)
+        layout.addWidget(self.B_input)
+
+        self.approxButton = QPushButton("Tính Xấp Xỉ")
         self.approxButton.clicked.connect(self.calculateApproximation)
-        
-        self.resultText2 = QTextEdit(self)
+        layout.addWidget(self.approxButton)
+
+        self.resultText2 = QTextEdit()
         self.resultText2.setReadOnly(True)
-        self.layout2.addWidget(self.resultText2)
-        
-        # Tab 3: Khảo sát sự phụ thuộc
-        self.tab3 = QWidget()
-        self.tabs.addTab(self.tab3, "Khảo sát sự phụ thuộc")
-        self.layout3 = QVBoxLayout(self.tab3)
-        self.C_input = QLineEdit(self)
-        self.C_input.setPlaceholderText("Nhập tập C (ví dụ: Ketqua)")
-        self.layout3.addWidget(self.C_input)
-        self.B2_input = QLineEdit(self)
-        self.B2_input.setPlaceholderText("Nhập tập B (ví dụ: trời,gió)")
-        self.layout3.addWidget(self.B2_input)
-        
-        self.dependencyButton = QPushButton("Khảo sát sự phụ thuộc", self)
-        self.layout3.addWidget(self.dependencyButton)
+        layout.addWidget(self.resultText2)
+        self.tabs.addTab(tab, "Tính Xấp Xỉ")
+
+    def setup_dependency_tab(self):
+        """Tab 3: Khảo Sát Sự Phụ Thuộc"""
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+
+        self.C_input = QLineEdit()
+        self.C_input.setPlaceholderText("Nhập tập C (Ví dụ: Ketqua)")
+        layout.addWidget(self.C_input)
+
+        self.B2_input = QLineEdit()
+        self.B2_input.setPlaceholderText("Nhập tập B (Ví dụ: trời, gió)")
+        layout.addWidget(self.B2_input)
+
+        self.dependencyButton = QPushButton("Khảo Sát Sự Phụ Thuộc")
         self.dependencyButton.clicked.connect(self.analyzeDependency)
-        
-        self.resultText3 = QTextEdit(self)
+        layout.addWidget(self.dependencyButton)
+
+        self.resultText3 = QTextEdit()
         self.resultText3.setReadOnly(True)
-        self.layout3.addWidget(self.resultText3)
-        
-        # Tab 4: Tìm Reduct
-        self.tab4 = QWidget()
-        self.tabs.addTab(self.tab4, "Tìm Reduct")
-        self.layout4 = QVBoxLayout(self.tab4)
+        layout.addWidget(self.resultText3)
+        self.tabs.addTab(tab, "Khảo Sát Phụ Thuộc")
 
-        # Dropdown cho thuộc tính quyết định
-        self.decision_input = QComboBox(self)
-        self.decision_input.setPlaceholderText("Chọn thuộc tính quyết định")
-        self.layout4.addWidget(self.decision_input)
+    def setup_reduct_tab(self):
+        """Tab 4: Tìm Reduct"""
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
 
-        # Listbox cho thuộc tính điều kiện (cho phép chọn nhiều thuộc tính)
-        self.condition_input = QListWidget(self)
+        self.decision_input = QComboBox()
+        self.decision_input.addItem("Chọn thuộc tính quyết định")
+        layout.addWidget(self.decision_input)
+
+        self.condition_input = QListWidget()
         self.condition_input.setSelectionMode(QListWidget.MultiSelection)
-        self.layout4.addWidget(self.condition_input)
+        layout.addWidget(self.condition_input)
 
-        self.reductButton = QPushButton("Tìm Reduct", self)
-        self.layout4.addWidget(self.reductButton)
+        self.reductButton = QPushButton("Tìm Reduct")
         self.reductButton.clicked.connect(self.findReduct)
+        layout.addWidget(self.reductButton)
 
-        self.resultText4 = QTextEdit(self)
+        self.resultText4 = QTextEdit()
         self.resultText4.setReadOnly(True)
-        self.layout4.addWidget(self.resultText4)
+        layout.addWidget(self.resultText4)
+        self.tabs.addTab(tab, "Tìm Reduct")
 
     def loadFile(self):
-        """Chọn file Excel hoặc CSV và xử lý dữ liệu"""
-        options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(self, "Chọn file", "", "Excel Files (*.xls *.xlsx);;CSV Files (*.csv)", options=options)
+        """Chọn File và Xử Lý Dữ Liệu"""
+        file, _ = QFileDialog.getOpenFileName(self, "Chọn File", "", "Excel Files (*.xls *.xlsx);;CSV Files (*.csv)")
 
         if file:
             if file.endswith('.csv'):
-                self.df = pd.read_csv(file)  # Đọc file CSV vào DataFrame
+                self.df = pd.read_csv(file)
             else:
-                self.df = pd.read_excel(file)  # Đọc file Excel vào DataFrame
+                self.df = pd.read_excel(file)
+
             self.resultText1.setHtml(f"<b>Đã tải file:</b> {file}<br><br>")
             self.resultText1.append(f"<b>Dữ liệu đầu tiên:</b><br>{self.df.head().to_html(index=False)}<br>")
 
-            # Cập nhật dropdown thuộc tính quyết định và điều kiện
+            # Cập nhật thuộc tính trong combobox và listbox
             self.decision_input.clear()
-            self.decision_input.addItems(self.df.columns.tolist())
-            self.condition_input.clear()
-            self.condition_input.addItems(self.df.columns.tolist())
-
-    def loadFile(self):
-        """Chọn file Excel hoặc CSV và xử lý dữ liệu"""
-        options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(self, "Chọn file", "", "Excel Files (*.xls *.xlsx);;CSV Files (*.csv)", options=options)
-
-        if file:
-            if file.endswith('.csv'):
-                self.df = pd.read_csv(file)  # Đọc file CSV vào DataFrame
-            else:
-                self.df = pd.read_excel(file)  # Đọc file Excel vào DataFrame
-            self.resultText1.setHtml(f"<b>Đã tải file:</b> {file}<br><br>")
-            self.resultText1.append(f"<b>Dữ liệu đầu tiên:</b><br>{self.df.head().to_html(index=False)}<br>")
-
-            # Cập nhật dropdown thuộc tính quyết định và điều kiện
-            self.decision_input.clear()
-            self.decision_input.addItems(self.df.columns.tolist())
+            self.decision_input.addItems(["Chọn thuộc tính quyết định"] + self.df.columns.tolist())
             self.condition_input.clear()
             self.condition_input.addItems(self.df.columns.tolist())
 
