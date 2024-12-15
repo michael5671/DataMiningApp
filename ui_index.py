@@ -19,29 +19,34 @@ from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
     QLabel, QMainWindow, QPushButton, QSizePolicy,
     QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
 import asset_rc
+import asset_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1268, 830)
-        MainWindow.setMaximumSize(QSize(1272, 830))
+        MainWindow.resize(1368, 790)
+        MainWindow.setMinimumSize(QSize(1360, 790))
+        MainWindow.setMaximumSize(QSize(16777215, 790))
         font = QFont()
+        font.setFamilies([u"roboto"])
         font.setPointSize(10)
         MainWindow.setFont(font)
+        MainWindow.setStyleSheet(u"font-family:roboto;")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setMaximumSize(QSize(1370, 879))
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(0, 0, 1267, 831))
+        self.layoutWidget.setGeometry(QRect(0, 0, 1371, 791))
         self.gridLayout = QGridLayout(self.layoutWidget)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.icon_only_widget = QWidget(self.layoutWidget)
         self.icon_only_widget.setObjectName(u"icon_only_widget")
-        self.icon_only_widget.setMinimumSize(QSize(110, 0))
-        self.icon_only_widget.setMaximumSize(QSize(110, 16777215))
+        self.icon_only_widget.setMinimumSize(QSize(110, 789))
+        self.icon_only_widget.setMaximumSize(QSize(110, 789))
         self.icon_only_widget.setStyleSheet(u"QWidget {\n"
 "	background-color: #2F0746;\n"
 "color: white;	\n"
@@ -62,7 +67,7 @@ class Ui_MainWindow(object):
 "")
         self.verticalLayout_7 = QVBoxLayout(self.icon_only_widget)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.verticalLayout_7.setContentsMargins(-1, 15, -1, -1)
+        self.verticalLayout_7.setContentsMargins(-1, 13, -1, -1)
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalSpacer_2 = QSpacerItem(18, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -94,12 +99,12 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.addWidget(self.line_2)
 
         self.verticalLayout_6 = QVBoxLayout()
-        self.verticalLayout_6.setSpacing(20)
+        self.verticalLayout_6.setSpacing(18)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.verticalLayout_6.setContentsMargins(-1, 35, -1, -1)
+        self.verticalLayout_6.setContentsMargins(-1, 28, -1, -1)
         self.TienXL2 = QPushButton(self.icon_only_widget)
         self.TienXL2.setObjectName(u"TienXL2")
-        self.TienXL2.setMinimumSize(QSize(0, 0))
+        self.TienXL2.setMinimumSize(QSize(0, 50))
         icon = QIcon()
         icon.addFile(u":/images/asset/table-list.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.TienXL2.setIcon(icon)
@@ -111,6 +116,7 @@ class Ui_MainWindow(object):
 
         self.TapPB2 = QPushButton(self.icon_only_widget)
         self.TapPB2.setObjectName(u"TapPB2")
+        self.TapPB2.setMinimumSize(QSize(0, 50))
         icon1 = QIcon()
         icon1.addFile(u":/images/asset/circle-nodes-solid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.TapPB2.setIcon(icon1)
@@ -122,6 +128,7 @@ class Ui_MainWindow(object):
 
         self.TapTho1_2 = QPushButton(self.icon_only_widget)
         self.TapTho1_2.setObjectName(u"TapTho1_2")
+        self.TapTho1_2.setMinimumSize(QSize(0, 50))
         icon2 = QIcon()
         icon2.addFile(u":/images/asset/list-solid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.TapTho1_2.setIcon(icon2)
@@ -133,6 +140,7 @@ class Ui_MainWindow(object):
 
         self.PhanLop2 = QPushButton(self.icon_only_widget)
         self.PhanLop2.setObjectName(u"PhanLop2")
+        self.PhanLop2.setMinimumSize(QSize(0, 50))
         icon3 = QIcon()
         icon3.addFile(u":/images/asset/sitemap-solid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.PhanLop2.setIcon(icon3)
@@ -144,6 +152,7 @@ class Ui_MainWindow(object):
 
         self.GomCum2 = QPushButton(self.icon_only_widget)
         self.GomCum2.setObjectName(u"GomCum2")
+        self.GomCum2.setMinimumSize(QSize(0, 50))
         icon4 = QIcon()
         icon4.addFile(u":/images/asset/object-ungroup-solid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.GomCum2.setIcon(icon4)
@@ -225,6 +234,7 @@ class Ui_MainWindow(object):
         self.label = QLabel(self.layoutWidget1)
         self.label.setObjectName(u"label")
         font1 = QFont()
+        font1.setFamilies([u"roboto"])
         font1.setPointSize(12)
         font1.setBold(True)
         self.label.setFont(font1)
@@ -236,6 +246,7 @@ class Ui_MainWindow(object):
         self.label_2 = QLabel(self.layoutWidget1)
         self.label_2.setObjectName(u"label_2")
         font2 = QFont()
+        font2.setFamilies([u"roboto"])
         font2.setPointSize(11)
         font2.setBold(False)
         self.label_2.setFont(font2)
@@ -256,13 +267,14 @@ class Ui_MainWindow(object):
 
         self.main_screen_widget = QWidget(self.layoutWidget)
         self.main_screen_widget.setObjectName(u"main_screen_widget")
-        self.main_screen_widget.setMinimumSize(QSize(843, 780))
+        self.main_screen_widget.setMinimumSize(QSize(931, 701))
         self.main_screen_widget.setMaximumSize(QSize(16777215, 16777215))
         self.main_screen_widget.setStyleSheet(u"background-color: white;\n"
 "border:none;")
         self.stackedWidget = QStackedWidget(self.main_screen_widget)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.stackedWidget.setGeometry(QRect(0, 10, 851, 751))
+        self.stackedWidget.setGeometry(QRect(0, 0, 841, 691))
+        self.stackedWidget.setMinimumSize(QSize(0, 0))
         self.stackedWidget.setMaximumSize(QSize(16777215, 16777215))
         self.stackedWidget.setStyleSheet(u"")
 
@@ -273,8 +285,8 @@ class Ui_MainWindow(object):
 
         self.icon_text_widget = QWidget(self.layoutWidget)
         self.icon_text_widget.setObjectName(u"icon_text_widget")
-        self.icon_text_widget.setMinimumSize(QSize(0, 0))
-        self.icon_text_widget.setMaximumSize(QSize(292, 16777215))
+        self.icon_text_widget.setMinimumSize(QSize(310, 789))
+        self.icon_text_widget.setMaximumSize(QSize(305, 789))
         self.icon_text_widget.setStyleSheet(u"QWidget {\n"
 "	\n"
 "	background-color: #2F0746;\n"
@@ -290,7 +302,7 @@ class Ui_MainWindow(object):
 "")
         self.verticalLayout_8 = QVBoxLayout(self.icon_text_widget)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.verticalLayout_8.setContentsMargins(-1, 20, -1, 20)
+        self.verticalLayout_8.setContentsMargins(0, 18, 5, 5)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.label_5 = QLabel(self.icon_text_widget)
@@ -304,6 +316,7 @@ class Ui_MainWindow(object):
         self.label_6 = QLabel(self.icon_text_widget)
         self.label_6.setObjectName(u"label_6")
         font3 = QFont()
+        font3.setFamilies([u"roboto"])
         font3.setPointSize(18)
         font3.setBold(True)
         self.label_6.setFont(font3)
@@ -324,18 +337,21 @@ class Ui_MainWindow(object):
         self.verticalLayout_8.addWidget(self.line)
 
         self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setSpacing(35)
+        self.verticalLayout_5.setSpacing(18)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(-1, 40, -1, -1)
+        self.verticalLayout_5.setContentsMargins(0, 28, 0, -1)
         self.TienXL1 = QPushButton(self.icon_text_widget)
         self.TienXL1.setObjectName(u"TienXL1")
+        self.TienXL1.setMinimumSize(QSize(300, 45))
         font4 = QFont()
+        font4.setFamilies([u"roboto"])
         font4.setPointSize(11)
         font4.setBold(True)
         self.TienXL1.setFont(font4)
         self.TienXL1.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
 "	padding-left: -55px;\n"
+"\n"
 "}\n"
 "QPushButton:checked{\n"
 "	background-color: #5C3B8F;\n"
@@ -344,6 +360,8 @@ class Ui_MainWindow(object):
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -75px;\n"
 "}")
         self.TienXL1.setIcon(icon)
         self.TienXL1.setIconSize(QSize(30, 30))
@@ -355,10 +373,11 @@ class Ui_MainWindow(object):
 
         self.TapPB1 = QPushButton(self.icon_text_widget)
         self.TapPB1.setObjectName(u"TapPB1")
+        self.TapPB1.setMinimumSize(QSize(300, 45))
         self.TapPB1.setFont(font4)
         self.TapPB1.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
-"	padding-left: 5px;\n"
+"	padding-left: 15px;\n"
 "	\n"
 "}\n"
 "QPushButton:checked{\n"
@@ -368,6 +387,8 @@ class Ui_MainWindow(object):
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -26px;\n"
 "}")
         self.TapPB1.setIcon(icon1)
         self.TapPB1.setIconSize(QSize(30, 32))
@@ -379,6 +400,7 @@ class Ui_MainWindow(object):
 
         self.TapTho1 = QPushButton(self.icon_text_widget)
         self.TapTho1.setObjectName(u"TapTho1")
+        self.TapTho1.setMinimumSize(QSize(300, 45))
         self.TapTho1.setFont(font4)
         self.TapTho1.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
@@ -392,6 +414,8 @@ class Ui_MainWindow(object):
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -135px;\n"
 "}")
         self.TapTho1.setIcon(icon2)
         self.TapTho1.setIconSize(QSize(30, 30))
@@ -410,7 +434,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.PhanLop1 = QPushButton(self.phanLop)
         self.PhanLop1.setObjectName(u"PhanLop1")
+        self.PhanLop1.setMinimumSize(QSize(300, 45))
         font5 = QFont()
+        font5.setFamilies([u"roboto"])
         font5.setPointSize(11)
         font5.setBold(True)
         font5.setItalic(False)
@@ -418,12 +444,14 @@ class Ui_MainWindow(object):
         self.PhanLop1.setFont(font5)
         self.PhanLop1.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
-"	padding-left: -65px;\n"
+"	padding-left: -60px;\n"
 "	\n"
 "}\n"
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -75px;\n"
 "}")
         self.PhanLop1.setIcon(icon3)
         self.PhanLop1.setIconSize(QSize(30, 30))
@@ -443,9 +471,10 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.CayQD = QPushButton(self.phanlop_dropdown)
         self.CayQD.setObjectName(u"CayQD")
-        self.CayQD.setMinimumSize(QSize(0, 30))
+        self.CayQD.setMinimumSize(QSize(300, 45))
         font6 = QFont()
-        font6.setPointSize(10)
+        font6.setFamilies([u"roboto"])
+        font6.setPointSize(11)
         font6.setBold(True)
         font6.setItalic(False)
         self.CayQD.setFont(font6)
@@ -457,10 +486,13 @@ class Ui_MainWindow(object):
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -105px;	\n"
 "}\n"
 "QPushButton:checked{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	\n"
 "}")
         self.CayQD.setCheckable(True)
         self.CayQD.setAutoExclusive(False)
@@ -469,19 +501,18 @@ class Ui_MainWindow(object):
 
         self.NaiveBayes = QPushButton(self.phanlop_dropdown)
         self.NaiveBayes.setObjectName(u"NaiveBayes")
-        self.NaiveBayes.setMinimumSize(QSize(0, 30))
-        font7 = QFont()
-        font7.setPointSize(10)
-        font7.setBold(True)
-        self.NaiveBayes.setFont(font7)
+        self.NaiveBayes.setMinimumSize(QSize(300, 45))
+        self.NaiveBayes.setFont(font4)
         self.NaiveBayes.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
-"	padding-left: -115px;\n"
+"	padding-left: -110px;\n"
 "	\n"
 "}\n"
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -115px;	\n"
 "}\n"
 "QPushButton:checked{\n"
 "	background-color: #5C3B8F;\n"
@@ -508,16 +539,19 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.GomCum1 = QPushButton(self.gomCum)
         self.GomCum1.setObjectName(u"GomCum1")
+        self.GomCum1.setMinimumSize(QSize(300, 45))
         self.GomCum1.setFont(font4)
         self.GomCum1.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
-"	padding-left: -110px;\n"
+"	padding-left: -105px;\n"
 "	\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -120px;	\n"
 "}")
         self.GomCum1.setIcon(icon4)
         self.GomCum1.setIconSize(QSize(30, 30))
@@ -536,17 +570,19 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.KMean = QPushButton(self.gomcum_dropdown)
         self.KMean.setObjectName(u"KMean")
-        self.KMean.setMinimumSize(QSize(0, 30))
-        self.KMean.setFont(font7)
+        self.KMean.setMinimumSize(QSize(300, 45))
+        self.KMean.setFont(font4)
         self.KMean.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
-"	padding-left: -135px;\n"
+"	padding-left: -125px;\n"
 "	\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -135px;	\n"
 "}\n"
 "QPushButton:checked{\n"
 "	background-color: #5C3B8F;\n"
@@ -559,16 +595,18 @@ class Ui_MainWindow(object):
 
         self.Konohen = QPushButton(self.gomcum_dropdown)
         self.Konohen.setObjectName(u"Konohen")
-        self.Konohen.setMinimumSize(QSize(0, 30))
-        self.Konohen.setFont(font7)
+        self.Konohen.setMinimumSize(QSize(300, 45))
+        self.Konohen.setFont(font4)
         self.Konohen.setStyleSheet(u"QPushButton{\n"
 "	border:none;\n"
-"	padding-left: -130px;\n"
+"	padding-left: -125px;\n"
 "	\n"
 "}\n"
 "QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 8px; \n"
+"	font-size: 16px;\n"
+"	padding-left: -135px;	\n"
 "}\n"
 "QPushButton:checked{\n"
 "	background-color: #5C3B8F;\n"
@@ -603,6 +641,7 @@ class Ui_MainWindow(object):
 
         self.pushButton_12 = QPushButton(self.icon_text_widget)
         self.pushButton_12.setObjectName(u"pushButton_12")
+        self.pushButton_12.setMinimumSize(QSize(0, 45))
         self.pushButton_12.setStyleSheet(u"QPushButton:hover{\n"
 "	background-color: #5C3B8F;\n"
 "	border-radius: 10px; \n"
@@ -653,15 +692,15 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"H\u00e3y bi\u1ebfn d\u1eef li\u1ec7u c\u1ee7a b\u1ea1n tr\u1edf th\u00e0nh th\u00f4ng tin b\u1ed5 \u00edch.", None))
         self.label_5.setText("")
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"PICKADATA", None))
-        self.TienXL1.setText(QCoreApplication.translate("MainWindow", u" Ti\u1ec1n x\u1eed l\u00fd d\u1eef li\u1ec7u", None))
-        self.TapPB1.setText(QCoreApplication.translate("MainWindow", u" T\u1eadp ph\u1ed5 bi\u1ebfn, Lu\u1eadt k\u1ebft h\u1ee3p", None))
-        self.TapTho1.setText(QCoreApplication.translate("MainWindow", u" T\u1eadp Th\u00f4", None))
-        self.PhanLop1.setText(QCoreApplication.translate("MainWindow", u" Ph\u00e2n l\u1edbp d\u1eef li\u1ec7u", None))
-        self.CayQD.setText(QCoreApplication.translate("MainWindow", u"C\u00e2y quy\u1ebft \u0111\u1ecbnh", None))
-        self.NaiveBayes.setText(QCoreApplication.translate("MainWindow", u"Naive Bayes", None))
-        self.GomCum1.setText(QCoreApplication.translate("MainWindow", u"Gom c\u1ee5m", None))
-        self.KMean.setText(QCoreApplication.translate("MainWindow", u"K Means", None))
-        self.Konohen.setText(QCoreApplication.translate("MainWindow", u"Konohen", None))
+        self.TienXL1.setText(QCoreApplication.translate("MainWindow", u"    Ti\u1ec1n x\u1eed l\u00fd d\u1eef li\u1ec7u", None))
+        self.TapPB1.setText(QCoreApplication.translate("MainWindow", u"    T\u1eadp ph\u1ed5 bi\u1ebfn, Lu\u1eadt k\u1ebft h\u1ee3p", None))
+        self.TapTho1.setText(QCoreApplication.translate("MainWindow", u"    T\u1eadp Th\u00f4", None))
+        self.PhanLop1.setText(QCoreApplication.translate("MainWindow", u"    Ph\u00e2n l\u1edbp d\u1eef li\u1ec7u", None))
+        self.CayQD.setText(QCoreApplication.translate("MainWindow", u"    C\u00e2y quy\u1ebft \u0111\u1ecbnh", None))
+        self.NaiveBayes.setText(QCoreApplication.translate("MainWindow", u"    Naive Bayes", None))
+        self.GomCum1.setText(QCoreApplication.translate("MainWindow", u"    Gom c\u1ee5m", None))
+        self.KMean.setText(QCoreApplication.translate("MainWindow", u"    K Means", None))
+        self.Konohen.setText(QCoreApplication.translate("MainWindow", u"    Konohen", None))
         self.pushButton_12.setText(QCoreApplication.translate("MainWindow", u"THO\u00c1T", None))
     # retranslateUi
 
