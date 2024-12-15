@@ -7,3 +7,4 @@ window = MySideBar()
 
 window.show()
 app.exec()
+
