@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QMainWindow, QMenu, QButtonGroup, QVBoxLayout
-from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QMainWindow, QMenu, QButtonGroup, QVBoxLayout, QLabel, QSizePolicy
+from PySide6.QtGui import QAction, QMovie
 from PySide6.QtCore import Qt, QPoint
 from ui_index import Ui_MainWindow
 from modules.TienXuLy import TienXuLy
@@ -16,7 +16,28 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Pickadata")
+        # Tạo QLabel để chứa nền động
+        self.header_background = QLabel(self.header_widget)
+        self.header_background.setScaledContents(True)
+        self.header_background.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.header_background.lower()  # Đặt QLabel dưới các thành phần khác
 
+        # Thêm ảnh GIF động
+        self.movie = QMovie("heaaderbackground.gif")  # Thay bằng đường dẫn GIF
+        self.header_background.setMovie(self.movie)
+        self.movie.start()
+
+        # Thêm QLabel vào layout của header_widget
+        layout = QVBoxLayout(self.header_widget)
+        layout.addWidget(self.header_background)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        self.header_widget.setLayout(layout)
+
+        # Đảm bảo các thành phần khác nằm phía trên
+        self.label.raise_()
+        self.label_2.raise_()
+        self.pushButton.raise_()
         self.icon_only_widget.setHidden(True)
 
         

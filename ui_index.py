@@ -200,11 +200,11 @@ class Ui_MainWindow(object):
         self.header_widget.setObjectName(u"header_widget")
         self.header_widget.setMinimumSize(QSize(845, 71))
         self.header_widget.setMaximumSize(QSize(16777215, 16777215))
-        self.header_widget.setStyleSheet(u"QWidget{\n"
-"	\n"
-"	background-image: url(:/images/asset/last_background.jpg);\n"
-"\n"
-"}")
+#         self.header_widget.setStyleSheet(u"QWidget{\n"
+# "	\n"
+# "	background-image: url(:/images/asset/last_background.jpg);\n"
+# "\n"
+# "}")
         self.layoutWidget1 = QWidget(self.header_widget)
         self.layoutWidget1.setObjectName(u"layoutWidget1")
         self.layoutWidget1.setGeometry(QRect(10, 10, 836, 82))
