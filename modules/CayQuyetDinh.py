@@ -37,7 +37,7 @@ class CayQuyetDinh(QWidget):
         self.result_table.setGeometry(20, 200, 1000, 300)
         self.result_table.setStyleSheet("""
     QHeaderView::section {
-        background-color: #6A5ACD; /* Màu xanh tím */
+        background-color: #A8DADC; /* Màu xanh tím */
         color: white;              /* Màu chữ trắng */
         font-size: 14px;
         font-weight: bold;

@@ -11,11 +11,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLineEdit, QPushButton, QScrollArea, QSizePolicy,
     QTabWidget, QWidget)
+from PySide6.QtWidgets import (QApplication, QPushButton, QWidget, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem, QVBoxLayout, QHeaderView, QDialog, QLabel,QComboBox,QFrame)
 import numpy as np
 import pandas as pd
+from minisom import MiniSom
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-
+import matplotlib.pyplot as plt
+from matplotlib import cm
 class Konohen(QWidget):
     def __init__(self):
         super().__init__()
@@ -26,6 +29,14 @@ class Konohen(QWidget):
         self.importBtn.clicked.connect(self.import_data)
         self.runBtn.clicked.connect(self.run_and_visualize)
         self.viewBtn.clicked.connect(self.view_file_data)
+
+         # Thêm QLabel để hiển thị tên file (sẽ tạo động)
+        self.file_name_label = QLabel(self.executeTab)
+        self.file_name_label.setGeometry(770, 90, 250, 20)  # Vị trí dưới nút
+        self.file_name_label.setStyleSheet("font-size: 12px; color: black;")
+        self.file_name_label.setText("")  # Đặt trống ban đầu
+        self.file_name_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        self.file_name_label.hide()
 
     def setupUi(self, Form):
         if not Form.objectName():
@@ -50,7 +61,7 @@ class Konohen(QWidget):
         self.executeTab.setStyleSheet(u"")
         self.runBtn = QPushButton(self.executeTab)
         self.runBtn.setObjectName(u"runBtn")
-        self.runBtn.setGeometry(QRect(480, 170, 151, 31))
+        self.runBtn.setGeometry(QRect(470, 180, 151, 31))
         font1 = QFont()
         font1.setFamilies([u"roboto"])
         font1.setBold(True)
@@ -81,33 +92,16 @@ class Konohen(QWidget):
         font3.setItalic(False)
         self.label_7.setFont(font3)
         self.label_7.setStyleSheet(u";")
-        self.frame = QFrame(self.executeTab)
-        self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(19, 240, 501, 421))
-        self.frame.setStyleSheet(u"QFrame {\n"
-"	border: 1px solid black;\n"
-"}")
-        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_2 = QHBoxLayout(self.frame)
+        self.frameQuaTrinh = QFrame(self.executeTab)
+        self.frameQuaTrinh.setObjectName(u"frameQuaTrinh")
+        self.frameQuaTrinh.setGeometry(QRect(19, 240, 501, 411))
+        self.frameQuaTrinh.setStyleSheet(u"")
+        self.frameQuaTrinh.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frameQuaTrinh.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_2 = QHBoxLayout(self.frameQuaTrinh)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.noiThucThi = QScrollArea(self.frame)
-        self.noiThucThi.setObjectName(u"noiThucThi")
-        self.noiThucThi.setStyleSheet(u"")
-        self.noiThucThi.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 497, 417))
-        self.scrollAreaWidgetContents.setStyleSheet(u"border:none;\n"
-"font-size: 13px;\n"
-"font-family:roboto;\n"
-"color: #4c1c46;")
-        self.noiThucThi.setWidget(self.scrollAreaWidgetContents)
-
-        self.horizontalLayout_2.addWidget(self.noiThucThi)
-
         self.label_8 = QLabel(self.executeTab)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setGeometry(QRect(200, 200, 71, 31))
@@ -164,6 +158,31 @@ class Konohen(QWidget):
 "	border-radius:7px;\n"
 "}")
         self.viewBtn.setCheckable(True)
+        self.frameKetQua = QFrame(self.executeTab)
+        self.frameKetQua.setObjectName(u"frameKetQua")
+        self.frameKetQua.setGeometry(QRect(570, 240, 461, 411))
+        self.frameKetQua.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frameKetQua.setFrameShadow(QFrame.Shadow.Raised)
+        self.label = QLabel(self.executeTab)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(460, 80, 111, 16))
+        self.label.setFont(font4)
+        self.label_9 = QLabel(self.executeTab)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setGeometry(QRect(460, 100, 61, 31))
+        self.label_9.setFont(font4)
+        self.label_10 = QLabel(self.executeTab)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setGeometry(QRect(460, 130, 61, 31))
+        self.label_10.setFont(font4)
+        self.n_rows = QLineEdit(self.executeTab)
+        self.n_rows.setObjectName(u"n_rows")
+        self.n_rows.setGeometry(QRect(540, 105, 61, 21))
+        self.n_rows.setStyleSheet(u"border: 1px solid;")
+        self.n_columns = QLineEdit(self.executeTab)
+        self.n_columns.setObjectName(u"n_columns")
+        self.n_columns.setGeometry(QRect(540, 135, 61, 21))
+        self.n_columns.setStyleSheet(u"border: 1px solid;")
         self.tabWidget.addTab(self.executeTab, "")
         self.visualizeTab = QWidget()
         self.visualizeTab.setObjectName(u"visualizeTab")
@@ -178,29 +197,6 @@ class Konohen(QWidget):
 
 
         QMetaObject.connectSlotsByName(Form)
-        # Trong setupUi
-        self.dimensionLabel = QLabel(self.executeTab)
-        self.dimensionLabel.setText("Chọn số chiều:")
-        self.dimensionLabel.setGeometry(QRect(20, 180, 120, 30))
-        self.dimensionLabel.setFont(font4)
-
-        self.dimensionCombo = QComboBox(self.executeTab)
-        self.dimensionCombo.setGeometry(QRect(150, 180, 100, 30))
-        self.dimensionCombo.addItems(["2D", "3D"])
-        self.executeTabLayout = QVBoxLayout(self.executeTab)
-        self.executeTab.setLayout(self.executeTabLayout)
-
-        # Khởi tạo các combobox
-        self.attributeCombos = []
-        for i in range(3):  # Tối đa 3 chiều
-            combo = QComboBox(self.executeTab)
-            combo.setVisible(False)  # Mặc định ẩn
-            self.attributeCombos.append(combo)
-            self.executeTabLayout.addWidget(combo)  # Thêm vào layout
-
-        self.dimensionCombo.currentIndexChanged.connect(self.update_attribute_combos)
-
-
     # setupUi
 
     def retranslateUi(self, Form):
@@ -214,162 +210,122 @@ class Konohen(QWidget):
         self.label_5.setText(QCoreApplication.translate("Form", u" Nh\u1eadp b\u00e1n k\u00ednh v\u00f9ng l\u00e2n c\u1eadn R:", None))
         self.importBtn.setText(QCoreApplication.translate("Form", u"T\u1ea3i file ", None))
         self.viewBtn.setText(QCoreApplication.translate("Form", u"Xem d\u1eef li\u1ec7u", None))
+        self.label.setText(QCoreApplication.translate("Form", u"K\u00edch th\u01b0\u1edbc l\u01b0\u1edbi", None))
+        self.label_9.setText(QCoreApplication.translate("Form", u"S\u1ed1 h\u00e0ng", None))
+        self.label_10.setText(QCoreApplication.translate("Form", u"S\u1ed1 c\u1ed9t", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.executeTab), QCoreApplication.translate("Form", u"Ch\u1ea1y Thu\u1eadt To\u00e1n", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.visualizeTab), QCoreApplication.translate("Form", u"Tr\u1ef1c Quan ", None))
     # retranslateUi
 
-
     import pandas as pd
-    def update_attribute_combos(self):
-        if self.data is None:
-            QMessageBox.warning(self, "Warning", "Hãy tải dữ liệu trước!")
-            return
-
-        selected_dim = self.dimensionCombo.currentText()
-        num_dims = 2 if selected_dim == "2D" else 3
-
-        # Hiển thị đúng số combobox
-        for i, combo in enumerate(self.attributeCombos):
-            if i < num_dims:
-                combo.setVisible(True)
-            else:
-                combo.setVisible(False)
-
-        # Cập nhật danh sách các thuộc tính trong combobox
-        columns = list(self.data.columns)  # Lấy tên cột từ DataFrame
-        for combo in self.attributeCombos:
-            combo.clear()
-            combo.addItems(columns)
-    def process_selected_attributes(self):
-        if self.data is None:
-            QMessageBox.warning(self, "Warning", "Hãy tải dữ liệu trước!")
-            return
-
-        selected_columns = [combo.currentText() for combo in self.attributeCombos if combo.isVisible()]
-        if len(selected_columns) < 2:
-            QMessageBox.warning(self, "Warning", "Hãy chọn ít nhất 2 thuộc tính!")
-            return
-
-        # Lọc dataset chỉ với các thuộc tính được chọn
-        self.filtered_data = self.data[selected_columns].to_numpy()
-
-        QMessageBox.information(self, "Success", f"Đã chọn các thuộc tính: {', '.join(selected_columns)}")
-
+    
     def import_data(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open File", "", "Excel Files (*.xlsx *.xls)")
         if file_path:
             try:
                 self.data = pd.read_excel(file_path)  # Lưu dữ liệu gốc dạng DataFrame
-                self.update_attribute_combos()  # Cập nhật combobox
-                self.filePathLabel.setText(f"File: {file_path}")  # Hiển thị đường dẫn file
+                # Hiển thị tên file dưới nút
+                file_name = file_path.split("/")[-1]  # Lấy tên file từ đường dẫn
+                self.file_name_label.setText(f"Tên file: {file_name}")
+                self.file_name_label.show()  # Hiển thị label
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Could not load data: {e}")
 
-
-    
-
     def run_algorithm(self):
-        # Kiểm tra xem dữ liệu đã được nhập chưa
         if self.data is None:
-            QMessageBox.warning(self, "Warning", "Please import data first!")
+            QMessageBox.warning(self, "Warning", "Vui lòng tải dữ liệu trước!")
             return
 
         try:
-            # Lấy thông tin từ giao diện
-            epochs_text = self.epochs.text()
-            R_text = self.R.text()
-            a_text = self.a.text()
+            # Đọc giá trị từ input hoặc gán mặc định
+            epochs = int(self.epochs.text()) if self.epochs.text() else 100
+            n_rows = int(self.n_rows.text()) if self.n_rows.text() else 5
+            n_columns = int(self.n_columns.text()) if self.n_columns.text() else 5
 
-            if not epochs_text or not R_text or not a_text:
-                raise ValueError("Missing input values!")
-
-            self.epochs = int(epochs_text)
-            self.R = float(R_text)
-            self.alpha = float(a_text)
-        except ValueError:
-            QMessageBox.warning(self, "Warning", "Please enter valid numeric values!")
+            if epochs <= 0 or n_rows <= 0 or n_columns <= 0:
+                raise ValueError("Giá trị Epochs, Rows và Columns phải lớn hơn 0!")
+        except ValueError as e:
+            QMessageBox.warning(self, "Warning", f"Giá trị nhập không hợp lệ! {e}")
             return
 
-        # Khởi tạo trọng số ban đầu
-        num_features = self.data.shape[1]
-        num_neurons = 3  # Số lượng neuron
-        self.weights = np.random.rand(num_neurons, num_features)
+        # Chuẩn bị dữ liệu
+        data_matrix = self.data.values
+        self.num_features = self.data.shape[1]
 
-        # Log bước khởi tạo
-        self.log_to_scroll_area("Khởi tạo trọng số ban đầu:")
-        for i, weight in enumerate(self.weights, 1):
-            self.log_to_scroll_area(f"  Neuron {i}: {weight}")
+        # Khởi tạo và huấn luyện SOM
+        self.som = MiniSom(n_rows, n_columns, self.num_features, sigma=1.0, learning_rate=0.5)
+        self.som.random_weights_init(data_matrix)
+        self.som.train(data_matrix, epochs)
 
-        # Chạy thuật toán Kohonen SOM
-        for epoch in range(self.epochs):
-            self.log_to_scroll_area(f"\nEpoch {epoch + 1}:")
-            for i, x in enumerate(self.data):
-                # Tính khoảng cách từ x đến các trọng số
-                distances = np.linalg.norm(self.weights - x, axis=1)
-                winner_idx = np.argmin(distances)  # Tìm neuron chiến thắng
+        QMessageBox.information(self, "Success", "Thuật toán hoàn thành!")
+        self.tabWidget.setCurrentIndex(1)  # Chuyển sang tab Trực quan
 
-                # Log thông tin khoảng cách
-                self.log_to_scroll_area(f"  Dữ liệu {i + 1}: {x}")
-                self.log_to_scroll_area(f"    Khoảng cách đến các neuron: {distances}")
-                self.log_to_scroll_area(f"    Neuron chiến thắng: Neuron {winner_idx + 1}")
-
-                # Cập nhật trọng số của neuron chiến thắng
-                old_weights = self.weights[winner_idx].copy()
-                self.weights[winner_idx] += self.alpha * (x - self.weights[winner_idx])
-                self.log_to_scroll_area(f"    Trọng số cũ: {old_weights}")
-                self.log_to_scroll_area(f"    Trọng số mới: {self.weights[winner_idx]}")
-
-        QMessageBox.information(self, "Success", "Clustering completed!")
         
-
+    
+    
     def visualize_data(self):
-        if self.data is None:
-            QMessageBox.warning(self, "Warning", "Please import data first!")
+        if self.data is None or self.som is None:
+            QMessageBox.warning(self, "Warning", "Vui lòng chạy thuật toán trước!")
             return
 
-        if self.weights is None:
-            QMessageBox.warning(self, "Warning", "Please run the SOM algorithm first!")
-            return
+        # Tạo heatmap từ lưới trọng số SOM
+        weights = self.som.get_weights()  # Lấy trọng số SOM
+        u_matrix = np.zeros((weights.shape[0], weights.shape[1]))  # Ma trận U
 
-        # Tạo figure cho plot 3D
-        figure = Figure()
-        canvas = FigureCanvas(figure)
-        ax = figure.add_subplot(111, projection='3d')
+        # Tính khoảng cách giữa các node láng giềng
+        for i in range(weights.shape[0]):
+            for j in range(weights.shape[1]):
+                neighbors = []
+                if i > 0: neighbors.append(weights[i-1, j])  # Trên
+                if i < weights.shape[0] - 1: neighbors.append(weights[i+1, j])  # Dưới
+                if j > 0: neighbors.append(weights[i, j-1])  # Trái
+                if j < weights.shape[1] - 1: neighbors.append(weights[i, j+1])  # Phải
+                
+                # Khoảng cách trung bình giữa trọng số hiện tại và các láng giềng
+                u_matrix[i, j] = np.mean([np.linalg.norm(weights[i, j] - neighbor) for neighbor in neighbors])
 
-        # Vẽ dữ liệu gốc
-        ax.scatter(
-            self.data[:, 0], self.data[:, 1], self.data[:, 2],
-            c='blue', label='Data Points'
-        )
+        # Tạo figure và vẽ heatmap
+        figure, ax = plt.subplots(figsize=(8, 8))
+        cax = ax.imshow(u_matrix, cmap=cm.coolwarm, interpolation='none')
+        ax.set_title("Heatmap SOM - U-Matrix")
+        figure.colorbar(cax)
 
-        # Vẽ trọng số (weights)
-        ax.scatter(
-            self.weights[:, 0], self.weights[:, 1], self.weights[:, 2],
-            c='red', marker='X', s=200, label='Weights (Neurons)'
-        )
-
-        # Thiết lập tiêu đề và nhãn
-        ax.set_title("3D Visualization of SOM")
-        ax.set_xlabel("Số màu")
-        ax.set_ylabel("Số đường nét")
-        ax.set_zlabel("Số hình khối")
-        ax.legend()
-
-        # Xóa layout cũ nếu có
+        # Xóa nội dung cũ trên tab Trực Quan và thêm canvas mới
         if self.visualizeTab.layout():
             for i in reversed(range(self.visualizeTab.layout().count())):
                 self.visualizeTab.layout().itemAt(i).widget().setParent(None)
         else:
             self.visualizeTab.setLayout(QVBoxLayout())
 
-        # Thêm plot 3D vào giao diện
+        canvas = FigureCanvas(figure)
         self.visualizeTab.layout().addWidget(canvas)
-    def run_and_visualize(self):
-        # Chạy thuật toán Kohonen SOM
-        self.run_algorithm()
 
-        # Hiển thị kết quả trực quan
+    def display_weights_table(self):
+        if self.som is None:
+            QMessageBox.warning(self, "Warning", "Vui lòng chạy thuật toán trước!")
+            return
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Trọng số của SOM")
+        layout = QVBoxLayout(dialog)
+        
+        weights = self.som.get_weights().reshape(-1, self.num_features)
+        table = QTableWidget()
+        table.setRowCount(weights.shape[0])
+        table.setColumnCount(weights.shape[1])
+        table.setHorizontalHeaderLabels([f"Thuộc tính {i+1}" for i in range(weights.shape[1])])
+        
+        for i in range(weights.shape[0]):
+            for j in range(weights.shape[1]):
+                table.setItem(i, j, QTableWidgetItem(f"{weights[i, j]:.4f}"))
+
+        layout.addWidget(table)
+        dialog.setLayout(layout)
+        dialog.exec()
+    def run_and_visualize(self):
+        self.run_algorithm()
         self.visualize_data()
+        self.display_weights_table()
 
     def view_file_data(self):
         if self.data is None:
@@ -379,43 +335,65 @@ class Konohen(QWidget):
         # Hiển thị dữ liệu trong hộp thoại
         dialog = DataDialog(self.data, self)
         dialog.exec()
-    def log_to_scroll_area(self, message):
-        # Tạo QLabel để hiển thị từng bước
-        label = QLabel(message, self.scrollAreaWidgetContents)
-        label.setWordWrap(True)  # Để nội dung tự động xuống dòng
-        label.setStyleSheet("margin: 5px;")
-        
-        # Thêm label vào layout của scrollAreaWidgetContents
-        layout = self.scrollAreaWidgetContents.layout()
-        if not layout:
-            layout = QVBoxLayout(self.scrollAreaWidgetContents)
-            self.scrollAreaWidgetContents.setLayout(layout)
-        layout.addWidget(label)
-        
-        # Cuộn đến cuối để xem nội dung mới
-        self.noiThucThi.verticalScrollBar().setValue(self.noiThucThi.verticalScrollBar().maximum())
 
 class DataDialog(QDialog):
     def __init__(self, data, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Dữ Liệu Gốc")
-        self.resize(600, 400)
+        self.resize(800, 600)
 
+        # Tạo bố cục chính
         layout = QVBoxLayout(self)
 
-        # Tạo bảng dữ liệu
+        # Tạo bảng hiển thị dữ liệu
         table = QTableWidget(self)
         rows, cols = data.shape
         table.setRowCount(rows)
         table.setColumnCount(cols)
 
         # Đặt tiêu đề cột
-        headers = ["Số màu", "Số đường nét", "Số hình khối"]
-        table.setHorizontalHeaderLabels(headers[:cols])
+        headers = list(data.columns)
+        table.setHorizontalHeaderLabels(headers)
 
-        # Thêm dữ liệu vào bảng
+        # Điền dữ liệu vào bảng
         for i in range(rows):
             for j in range(cols):
-                table.setItem(i, j, QTableWidgetItem(str(data[i, j])))
+                table.setItem(i, j, QTableWidgetItem(str(data.iloc[i, j])))
 
+        # Tự động dãn các cột để hiển thị đầy đủ nội dung
+        table.horizontalHeader().setStretchLastSection(True)
+        table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        table.setStyleSheet("""
+            QHeaderView::section {
+                background-color: #E6E6FA; /* Màu tím nhạt */
+                color: black; /* Màu chữ */
+                border: 1px solid #8A2BE2; /* Viền */
+                font-size: 13px;
+                font-weight: bold;
+                padding: 4px;
+            }
+        """)
+        # Thêm bảng vào bố cục
         layout.addWidget(table)
+
+        # Tạo nút đóng
+        close_button = QPushButton("Đóng", self)
+        close_button.setFixedSize(100, 30)
+        close_button.setStyleSheet("""
+            QPushButton {
+                background-color: #E6E6FA; /* Màu tím nhạt */
+                border: 2px solid #8A2BE2; /* Đường viền màu tím */
+                border-radius: 5px; /* Bo tròn góc */
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                background-color: #D8BFD8; /* Màu tím đậm hơn khi hover */
+            }
+        """)
+        close_button.clicked.connect(self.close)
+
+        # Thêm nút vào bố cục
+        layout.addWidget(close_button)
+        layout.setAlignment(close_button, Qt.AlignmentFlag.AlignCenter)
+
+        self.setLayout(layout)
