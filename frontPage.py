@@ -23,7 +23,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.header_background.lower()  # Đặt QLabel dưới các thành phần khác
 
         # Thêm ảnh GIF động
-        self.movie = QMovie("heaaderbackground.gif")  # Thay bằng đường dẫn GIF
+        self.movie = QMovie("headerbg.gif")  # Thay bằng đường dẫn GIF
         self.header_background.setMovie(self.movie)
         self.movie.start()
 
