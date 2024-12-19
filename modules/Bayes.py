@@ -51,9 +51,9 @@ class Bayes(QWidget):
         self.tableWidget_XuatKetQuaBayes.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_XuatKetQuaBayes.setStyleSheet("""
     QTableWidget {
-        border: 2px solid #black; /* Đường viền màu tím đậm */
+        border: 2px solid black; /* Đường viền màu tím đậm */
         border-radius: 5px; /* Bo góc đường viền */
-        gridline-color: #black; /* Màu đường lưới */
+        gridline-color: black; /* Màu đường lưới */
     }
     QHeaderView::section {
         background-color: #A8DADC; /* Màu nền tiêu đề */
@@ -74,9 +74,9 @@ class Bayes(QWidget):
         self.tableWidget_XuatKetQuaLaplace.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_XuatKetQuaLaplace.setStyleSheet("""
     QTableWidget {
-        border: 2px solid #black; /* Đường viền màu tím đậm */
+        border: 2px solid black; /* Đường viền màu tím đậm */
         border-radius: 5px; /* Bo góc đường viền */
-        gridline-color: #black; /* Màu đường lưới */
+        gridline-color: black; /* Màu đường lưới */
     }
     QHeaderView::section {
         background-color: #A8DADC; /* Màu nền tiêu đề */

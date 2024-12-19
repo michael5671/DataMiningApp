@@ -37,7 +37,7 @@ class CayQuyetDinh(QWidget):
         self.result_table.setGeometry(20, 200, 1000, 300)
         self.result_table.setStyleSheet("""
     QTableWidget {
-        border: 2px solid #black; /* Đường viền màu tím đậm */
+        border: 2px solid black; /* Đường viền màu tím đậm */
         border-radius: 5px; /* Bo góc đường viền */
         gridline-color: #8A2BE2; /* Màu đường lưới */
     }
