@@ -36,9 +36,14 @@ class CayQuyetDinh(QWidget):
         self.result_table = QTableWidget(self.tab)
         self.result_table.setGeometry(20, 200, 1000, 300)
         self.result_table.setStyleSheet("""
+    QTableWidget {
+        border: 2px solid #black; /* Đường viền màu tím đậm */
+        border-radius: 5px; /* Bo góc đường viền */
+        gridline-color: #8A2BE2; /* Màu đường lưới */
+    }
     QHeaderView::section {
         background-color: #A8DADC; /* Màu xanh tím */
-        color: white;              /* Màu chữ trắng */
+        color: black;              /* Màu chữ trắng */
         font-size: 14px;
         font-weight: bold;
         border: 1px solid #4B0082; /* Viền header */

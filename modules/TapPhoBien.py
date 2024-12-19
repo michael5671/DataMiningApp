@@ -71,13 +71,17 @@ class TapPhoBien(QWidget):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.layoutWidget = QWidget(Form)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(70, 80, 253, 22))
+        self.layoutWidget.setGeometry(QRect(30, 50, 271, 22))
         self.horizontalLayout_2 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.label_MinSupport = QLabel(self.layoutWidget)
         self.label_MinSupport.setObjectName(u"label_MinSupport")
-        self.label_MinSupport.setFont(font)
+        font2 = QFont()
+        font2.setFamilies([u"roboto"])
+        font2.setPointSize(12)
+        font2.setWeight(QFont.DemiBold)
+        self.label_MinSupport.setFont(font2)
 
         self.horizontalLayout_2.addWidget(self.label_MinSupport)
 
@@ -90,13 +94,13 @@ class TapPhoBien(QWidget):
 
         self.layoutWidget1 = QWidget(Form)
         self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.layoutWidget1.setGeometry(QRect(70, 130, 277, 22))
+        self.layoutWidget1.setGeometry(QRect(30, 90, 297, 22))
         self.horizontalLayout_3 = QHBoxLayout(self.layoutWidget1)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.label_MinConfidence = QLabel(self.layoutWidget1)
         self.label_MinConfidence.setObjectName(u"label_MinConfidence")
-        self.label_MinConfidence.setFont(font)
+        self.label_MinConfidence.setFont(font2)
 
         self.horizontalLayout_3.addWidget(self.label_MinConfidence)
 
