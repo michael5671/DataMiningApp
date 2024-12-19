@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QLabel, QTextEdit,QMessageBox,QDialog,QTableWidget,QTableWidgetItem
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QLabel, QTextEdit,QMessageBox,QDialog,QTableWidget,QTableWidgetItem,QHeaderView
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier, plot_tree
@@ -40,6 +40,9 @@ class Bayes(QWidget):
         self.pushButton_RunLaplace.clicked.connect(self.run_laplace)
         self.comboBox_Select.currentIndexChanged.connect(self.update_bayes_tab)
         self.comboBox.currentIndexChanged.connect(self.update_laplace_tab)
+        self.viewBtn.clicked.connect(self.view_file_data)
+        self.viewBtn_2.clicked.connect(self.view_file_data)
+        self.pushButton_chooseFile_2.clicked.connect(self.choose_file)
         # Thêm bảng QTableWidget cho kết quả Bayes
         self.tableWidget_XuatKetQuaBayes = QTableWidget(self.tab_2)
         self.tableWidget_XuatKetQuaBayes.setGeometry(QRect(40, 300, 981, 340))
