@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-
+from sklearn.cluster import DBSCAN
 
 class KMean(QWidget):
     def __init__(self):
@@ -40,6 +40,17 @@ class KMean(QWidget):
         self.result_layout.setContentsMargins(0, 0, 0, 0)  # Không có lề
         self.result_layout.setSpacing(10)  # Khoảng cách giữa các mục
         self.ketQua.setLayout(self.result_layout)
+        # Kết nối các button DBSCAN
+        self.runDBSCAN.clicked.connect(self.execute_dbscan)  # Kết nối "Thực thi" DBSCAN
+        self.visualizeDBSCAN.clicked.connect(self.show_dbscan_visualization)  # Kết nối "Trực quan" DBSCAN
+        self.dbscan_labels = None
+        self.dbscan_data_points = None
+        self.dbscan_result_layout = QVBoxLayout(self.tab_3)
+        self.dbscan_result_layout.setContentsMargins(20, 160, 20, 20)  # Lề phù hợp
+        self.dbscan_result_layout.setSpacing(10)  # Khoảng cách giữa các mục
+        self.tab_3.setLayout(self.dbscan_result_layout)
+        self.importBtn_3.clicked.connect(self.import_data)
+        self.viewBtn_2.clicked.connect(self.view_file_data)
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
@@ -53,15 +64,17 @@ class KMean(QWidget):
         self.tabWidget.setMinimumSize(QSize(1046, 691))
         self.tabWidget.setMaximumSize(QSize(16777215, 16777215))
         font = QFont()
+        font.setFamilies([u"roboto"])
         font.setPointSize(12)
         font.setWeight(QFont.DemiBold)
         font.setUnderline(False)
         font.setStrikeOut(False)
         self.tabWidget.setFont(font)
-        self.tabWidget.setStyleSheet(u"")
+        self.tabWidget.setStyleSheet(u"font-family:roboto;")
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         font1 = QFont()
+        font1.setFamilies([u"roboto"])
         font1.setPointSize(11)
         font1.setBold(False)
         font1.setUnderline(False)
@@ -98,6 +111,7 @@ class KMean(QWidget):
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(20, 40, 191, 21))
         font3 = QFont()
+        font3.setFamilies([u"roboto"])
         font3.setPointSize(12)
         font3.setBold(True)
         font3.setUnderline(False)
@@ -142,6 +156,79 @@ class KMean(QWidget):
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.tabWidget.addTab(self.tab_2, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.label_2 = QLabel(self.tab_3)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(30, 70, 211, 31))
+        self.label_2.setFont(font2)
+        self.label_3 = QLabel(self.tab_3)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(30, 30, 161, 16))
+        self.label_3.setFont(font2)
+        self.label_4 = QLabel(self.tab_3)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(310, 80, 61, 16))
+        font4 = QFont()
+        font4.setFamilies([u"roboto"])
+        font4.setPointSize(11)
+        self.label_4.setFont(font4)
+        self.label_5 = QLabel(self.tab_3)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setGeometry(QRect(540, 80, 91, 16))
+        self.label_5.setFont(font4)
+        self.eps = QLineEdit(self.tab_3)
+        self.eps.setObjectName(u"eps")
+        self.eps.setGeometry(QRect(370, 75, 81, 22))
+        self.eps.setStyleSheet(u"border:1px solid black;")
+        self.lineEdit_3 = QLineEdit(self.tab_3)
+        self.lineEdit_3.setObjectName(u"lineEdit_3")
+        self.lineEdit_3.setGeometry(QRect(630, 75, 81, 22))
+        self.lineEdit_3.setStyleSheet(u"border:1px solid black;")
+        self.runDBSCAN = QPushButton(self.tab_3)
+        self.runDBSCAN.setObjectName(u"runDBSCAN")
+        self.runDBSCAN.setGeometry(QRect(30, 120, 121, 41))
+        self.runDBSCAN.setFont(font2)
+        self.runDBSCAN.setStyleSheet(u"QPushButton{\n"
+"	border: 2px solid;\n"
+"	border-radius:7px;\n"
+"\n"
+"	background-color: #a296ca;\n"
+"}")
+        self.runDBSCAN.setCheckable(True)
+        self.visualizeDBSCAN = QPushButton(self.tab_3)
+        self.visualizeDBSCAN.setObjectName(u"visualizeDBSCAN")
+        self.visualizeDBSCAN.setGeometry(QRect(170, 120, 121, 41))
+        self.visualizeDBSCAN.setFont(font2)
+        self.visualizeDBSCAN.setStyleSheet(u"QPushButton{\n"
+"	border: 2px solid;\n"
+"	border-radius:7px;\n"
+"\n"
+"	background-color: #a296ca;\n"
+"}")
+        self.visualizeDBSCAN.setCheckable(True)
+        self.viewBtn_2 = QPushButton(self.tab_3)
+        self.viewBtn_2.setObjectName(u"viewBtn_2")
+        self.viewBtn_2.setGeometry(QRect(920, 20, 111, 41))
+        self.viewBtn_2.setFont(font2)
+        self.viewBtn_2.setStyleSheet(u"QPushButton{\n"
+"	border: 2px solid;\n"
+"	border-radius:7px;\n"
+"	background-color: #a296ca;\n"
+"}")
+        self.viewBtn_2.setCheckable(True)
+        self.importBtn_3 = QPushButton(self.tab_3)
+        self.importBtn_3.setObjectName(u"importBtn_3")
+        self.importBtn_3.setGeometry(QRect(780, 20, 121, 41))
+        self.importBtn_3.setFont(font2)
+        self.importBtn_3.setStyleSheet(u"QPushButton{\n"
+"	border: 2px solid;\n"
+"	border-radius:7px;\n"
+"\n"
+"	background-color: #a296ca;\n"
+"}")
+        self.importBtn_3.setCheckable(True)
+        self.tabWidget.addTab(self.tab_3, "")
 
         self.horizontalLayout.addWidget(self.tabWidget)
 
@@ -163,7 +250,17 @@ class KMean(QWidget):
         self.trucQuanBtn.setText(QCoreApplication.translate("Form", u"Tr\u1ef1c quan", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("Form", u"Ch\u1ea1y thu\u1eadt to\u00e1n ", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("Form", u"Tr\u1ef1c quan", None))
+        self.label_2.setText(QCoreApplication.translate("Form", u"Nh\u1eadp c\u00e1c th\u00f4ng s\u1ed1 DBSCAN", None))
+        self.label_3.setText(QCoreApplication.translate("Form", u"Thu\u1eadt to\u00e1n DBSCAN", None))
+        self.label_4.setText(QCoreApplication.translate("Form", u"epsilons", None))
+        self.label_5.setText(QCoreApplication.translate("Form", u"min_samples ", None))
+        self.runDBSCAN.setText(QCoreApplication.translate("Form", u"Th\u1ef1c thi ", None))
+        self.visualizeDBSCAN.setText(QCoreApplication.translate("Form", u"Tr\u1ef1c quan", None))
+        self.viewBtn_2.setText(QCoreApplication.translate("Form", u"Xem d\u1eef li\u1ec7u", None))
+        self.importBtn_3.setText(QCoreApplication.translate("Form", u"T\u1ea3i file ", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("Form", u"M\u1edf r\u1ed9ng", None))
     # retranslateUi
+
 
     def import_data(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open File", "", "Excel Files (*.xlsx *.xls)")
@@ -339,7 +436,119 @@ class KMean(QWidget):
 
         # Thêm biểu đồ vào tab
         self.tab_2.layout().addWidget(canvas)
+    
 
+    def execute_dbscan(self):
+        if self.data is None:
+            QMessageBox.warning(self, "Cảnh báo", "Không có dữ liệu để thực thi DBSCAN.")
+            return
+
+        try:
+            # Lấy giá trị từ các ô nhập
+            eps = float(self.eps.text())  # Lấy giá trị epsilon từ QLineEdit
+            min_samples = int(self.lineEdit_3.text())  # Lấy giá trị min_samples từ QLineEdit
+
+            if eps <= 0 or min_samples <= 0:
+                raise ValueError("Epsilon và Min Samples phải lớn hơn 0.")
+
+            data_points = self.data.select_dtypes(include=[np.number]).values
+            if data_points.shape[1] < 2:
+                QMessageBox.warning(self, "Cảnh báo", "Dữ liệu cần ít nhất 2 cột số để thực thi DBSCAN.")
+                return
+
+            # Khởi chạy DBSCAN
+            dbscan = DBSCAN(eps=eps, min_samples=min_samples)
+            labels = dbscan.fit_predict(data_points)
+
+            # Lưu nhãn để sử dụng khi trực quan hóa
+            self.dbscan_labels = labels
+            self.dbscan_data_points = data_points
+
+            # Hiển thị kết quả trên tab "Mở rộng"
+            self.display_dbscan_steps(data_points, labels, eps, min_samples)
+
+            # Chuyển sang tab "Mở rộng"
+            self.tabWidget.setCurrentIndex(2)
+
+        except ValueError as ve:
+            QMessageBox.critical(self, "Lỗi", str(ve))
+
+
+    def display_dbscan_steps(self, data_points, labels, eps, min_samples):
+        """Hiển thị từng bước chạy của DBSCAN trên tab 'Mở rộng'."""
+        # Xóa các widget cũ trên tab "Mở rộng"
+        for i in reversed(range(self.dbscan_result_layout.count())):
+            widget = self.dbscan_result_layout.takeAt(i).widget()
+            if widget:
+                widget.deleteLater()
+
+        # Hiển thị các bước
+        step_header = QLabel(f"=== Các bước chạy DBSCAN với eps={eps}, min_samples={min_samples} ===")
+        step_header.setStyleSheet("font-size: 14px; font-weight: bold;")
+        self.dbscan_result_layout.addWidget(step_header)
+
+        for idx, (point, label) in enumerate(zip(data_points, labels)):
+            step_text = f"Điểm {idx + 1}: [{', '.join(map(str, point))}] - "
+            if label == -1:
+                step_text += "Nhiễu"
+            else:
+                step_text += f"Thuộc cụm {label + 1}"
+            step_label = QLabel(step_text)
+            step_label.setStyleSheet("font-size: 12px;")
+            self.dbscan_result_layout.addWidget(step_label)
+
+        # Tóm tắt kết quả cuối
+        summary = QLabel(f"Tổng số cụm: {len(set(labels)) - (1 if -1 in labels else 0)}")
+        summary.setStyleSheet("font-size: 12px; font-weight: bold; color: green;")
+        self.dbscan_result_layout.addWidget(summary)
+
+    def show_dbscan_visualization(self):
+        """Vẽ biểu đồ DBSCAN trên tab Trực quan."""
+        if self.dbscan_labels is None or self.dbscan_data_points is None:
+            QMessageBox.warning(self, "Cảnh báo", "Vui lòng thực thi DBSCAN trước khi trực quan hóa.")
+            return
+
+        # Chuyển sang tab trực quan
+        self.tabWidget.setCurrentIndex(1)
+
+        # Xóa các widget cũ trên tab Trực quan
+        if not self.tab_2.layout():
+            layout = QVBoxLayout(self.tab_2)
+            self.tab_2.setLayout(layout)
+        for i in reversed(range(self.tab_2.layout().count())):
+            widget = self.tab_2.layout().takeAt(i).widget()
+            if widget:
+                widget.deleteLater()
+
+        # Chuẩn bị màu sắc
+        unique_labels = set(self.dbscan_labels)
+        colors = plt.cm.Spectral(np.linspace(0, 1, len(unique_labels)))
+
+        # Tạo Figure và vẽ biểu đồ
+        fig = Figure()
+        canvas = FigureCanvas(fig)
+        ax = fig.add_subplot(111)
+
+        for label, color in zip(unique_labels, colors):
+            if label == -1:  # Điểm nhiễu
+                color = "black"
+
+            cluster_points = self.dbscan_data_points[self.dbscan_labels == label]
+            ax.scatter(cluster_points[:, 0], cluster_points[:, 1], c=[color], label=f"Cụm {label}" if label != -1 else "Nhiễu", s=50)
+
+        # Thiết lập tiêu đề và nhãn
+        ax.set_title("DBSCAN Clustering Visualization")
+        ax.set_xlabel("X1")
+        ax.set_ylabel("X2")
+        ax.legend()
+        ax.grid(True)
+
+        # Thêm biểu đồ vào tab
+        self.tab_2.layout().addWidget(canvas)
+
+
+ 
+    
 
 class DataDialog(QDialog):
     def __init__(self, data, parent=None):
